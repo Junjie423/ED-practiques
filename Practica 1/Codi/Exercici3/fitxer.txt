@@ -1,0 +1,5 @@
+Joan 2000 5
+Marta 1997 4
+Lluis 1999 3
+Pere 2001 6
+Eva 2002 5
