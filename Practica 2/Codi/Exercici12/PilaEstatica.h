@@ -37,38 +37,70 @@ template <class Elemento> class PilaEstatica {
 
 // Constructores
 template <class Elemento> PilaEstatica<Elemento>::PilaEstatica(int max){
-
+    this->_datos.reserve(max);
+    this->_capacidad = max;
+    this->_encima = 0;
 }
 template <class Elemento> PilaEstatica<Elemento>::PilaEstatica(const PilaEstatica &original){
-
+    for (vector<Elemento>::iterator itr = original._datos.begin(); itr != original._datos.end(); ++itr){
+        this->_datos = original._datos[itr];
+    }
+    this->_capacitat = original._capacidad;
+    this->_encima = original._encima;
 }
 template <class Elemento> PilaEstatica<Elemento>::PilaEstatica(initializer_list<Elemento> elementos){
-
+    for (int i = 0; i < elementos.size(); ++i){
+        this->_datos[i] = elementos[i];
+    }
+    this->_capacitat = elementos.size();
+    this->_encima = 0;
 }
 template <class Elemento> PilaEstatica<Elemento>::PilaEstatica(const vector<Elemento>& elementos){
-
+    for (vector<Elemento>::iterator itr = elementos.begin(); itr != elementos.end(); ++itr){
+        this->_datos = elementos[itr];
+    }
+    this->_capacitat = elementos.size();
+    this->_encima = elementos.begin();
 }
 
 template <class Elemento> int PilaEstatica<Elemento>::tamano() const{
-
+    return this._datos.size();
 }
 template <class Elemento> bool PilaEstatica<Elemento>::estaVacia() const{
-
+    if(this->_datos.empty()){
+        return true;
+    }
+    return false;
 }
 template <class Elemento> bool PilaEstatica<Elemento>::estaLlena() const{
-
+    if(this->_datos)
 }
 template <class Elemento> const Elemento& PilaEstatica<Elemento>::elementoEncima() const{
-
+    if(this->estaVacia()){
+        throw new out_of_range("La pila està buida");
+    } else{
+        cout << this->_datos[_encima] << endl;
+    }
 }
 
 template <class Elemento> void PilaEstatica<Elemento>::anadirElemento(const Elemento &e){
-
+    if(this->estaLlena()){
+        throw new out_of_range("La pila està plena");
+    } else{
+        this._datos.insert(0,e);
+    }
 }
 template <class Elemento> void PilaEstatica<Elemento>::suprimirElemento(){
-
+    if(this.estaVacia()){
+        throw new out_of_range("La pila està buida");
+    } else{
+        this->_datos.erase(this._encima)
+        this->_encima++;
+    }
 }
 
 template <class Elemento> void PilaEstatica<Elemento>::print() const{
-
+    for(int i = 0; i < this->tamano(); ++i){
+        cout << this->_datos[i] << endl;
+    }
 }
