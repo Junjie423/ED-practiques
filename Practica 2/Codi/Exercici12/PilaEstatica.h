@@ -33,74 +33,86 @@ template <class Elemento> class PilaEstatica {
         int _encima; // Posición del elemento de encima (el top) de la pila
 };
 
-#endif // PILA_ESTATICA_H
-
 // Constructores
 template <class Elemento> PilaEstatica<Elemento>::PilaEstatica(int max){
     this->_datos.reserve(max);
     this->_capacidad = max;
-    this->_encima = 0;
+    this->_encima = -1;
 }
 template <class Elemento> PilaEstatica<Elemento>::PilaEstatica(const PilaEstatica &original){
-    for (vector<Elemento>::iterator itr = original._datos.begin(); itr != original._datos.end(); ++itr){
-        this->_datos = original._datos[itr];
+    this->_datos.reserve(original._capacidad);
+    for (typename vector<Elemento>::const_iterator itr = original._datos.begin(); itr != original._datos.end(); ++itr){
+        this->_datos.push_back(*itr);
     }
-    this->_capacitat = original._capacidad;
+    this->_capacidad = original._capacidad;
     this->_encima = original._encima;
 }
 template <class Elemento> PilaEstatica<Elemento>::PilaEstatica(initializer_list<Elemento> elementos){
-    for (int i = 0; i < elementos.size(); ++i){
-        this->_datos[i] = elementos[i];
+    this->_capacidad = elementos.size();
+    this->_encima = -1;
+    this->_datos.reserve(this->_capacidad);
+    for (typename initializer_list<Elemento>::const_iterator itr = elementos.begin(); itr != elementos.end(); ++itr){
+        this->_datos.push_back(*itr);
+        this->_encima++;
     }
-    this->_capacitat = elementos.size();
-    this->_encima = 0;
 }
 template <class Elemento> PilaEstatica<Elemento>::PilaEstatica(const vector<Elemento>& elementos){
-    for (vector<Elemento>::iterator itr = elementos.begin(); itr != elementos.end(); ++itr){
-        this->_datos = elementos[itr];
+    this->_capacidad = elementos.size();
+    this->_encima = -1;
+    this->_datos.reserve(this->_capacidad);
+    for (typename vector<Elemento>::const_iterator itr = elementos.begin(); itr != elementos.end(); ++itr){
+        this->_datos.push_back(*itr);
+        this->_encima++;
     }
-    this->_capacitat = elementos.size();
-    this->_encima = elementos.begin();
+    
 }
 
 template <class Elemento> int PilaEstatica<Elemento>::tamano() const{
-    return this._datos.size();
+    return this->_encima+1;
 }
 template <class Elemento> bool PilaEstatica<Elemento>::estaVacia() const{
-    if(this->_datos.empty()){
-        return true;
-    }
-    return false;
+    return this->_encima == -1;
 }
 template <class Elemento> bool PilaEstatica<Elemento>::estaLlena() const{
-    if(this->_datos)
+    return (this->_encima + 1) == this->_capacidad;
 }
 template <class Elemento> const Elemento& PilaEstatica<Elemento>::elementoEncima() const{
     if(this->estaVacia()){
-        throw new out_of_range("La pila està buida");
+        throw out_of_range("L’estructura està buida");
     } else{
-        cout << this->_datos[_encima] << endl;
+        return this->_datos[this->_encima];
     }
 }
 
 template <class Elemento> void PilaEstatica<Elemento>::anadirElemento(const Elemento &e){
     if(this->estaLlena()){
-        throw new out_of_range("La pila està plena");
+        throw out_of_range("L’estructura està plena");
     } else{
-        this._datos.insert(0,e);
+        this->_datos.push_back(e);
+        this->_encima++;
     }
 }
 template <class Elemento> void PilaEstatica<Elemento>::suprimirElemento(){
-    if(this.estaVacia()){
-        throw new out_of_range("La pila està buida");
+    if(this->estaVacia()){
+        throw out_of_range("L’estructura està buida");
     } else{
-        this->_datos.erase(this._encima)
-        this->_encima++;
+        this->_datos.pop_back();
+        this->_encima--;
     }
 }
 
 template <class Elemento> void PilaEstatica<Elemento>::print() const{
-    for(int i = 0; i < this->tamano(); ++i){
-        cout << this->_datos[i] << endl;
+    if (!estaVacia()){
+        cout << "[";
+        typename vector<Elemento>::const_iterator itr = this->_datos.begin();
+        for (int i = 0; itr < this->_datos.end()-1; ++itr){
+            cout << *itr << ", ";
+        
+        }
+        cout << *itr << "]";
+    } else{
+        cout << "[]";
     }
 }
+
+#endif // PILA_ESTATICA_H
