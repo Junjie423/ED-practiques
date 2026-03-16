@@ -153,6 +153,7 @@ void casProvaMenu(){
                 int num;
                 cout << "Element que vols inserir: ";
                 cin >> num;
+                cout << endl;
                 if(cin.fail()){
                     throw new invalid_argument("Ha de ser un enter");
                 }
@@ -185,6 +186,7 @@ void casProvaMenu(){
         case 4:
             try{
                 pila.print();
+                cout << endl;
             } catch(exception &e){
                 cout << "Error: " << e.what() << endl;
             }
@@ -203,51 +205,6 @@ void casProvaMenu(){
             break;
         }
     }
-}
-
-// Mètode del cas de prova Ex2
-void casProvaEx2(){
-    // Demanem a l'usuari el nombre de paquets i iniciem la pila A amb el quart constructor
-    int pack;
-    cout << "Hola, sóc el braç robòtic." << endl;
-    cout << "Introdueix el nombre de paquets: ";
-    cin >> pack;
-    vector <int> A;
-    for (int i = 0; i < pack; ++i){
-        A.push_back(i);
-    }
-    PilaEstatica<int> pilaA(A);
-    // Iniciem les altres dues piles
-    PilaEstatica<int> pilaB(pack);
-    PilaEstatica<int> pilaP(pack);
-
-    // Mostrem l'estat incial
-    cout << "L’estat inicial és el següent:" << endl;
-    cout << "A: ";
-    pilaA.print();
-    cout << endl;
-    cout << "P: ";
-    pilaP.print();
-    cout << endl;
-    cout << "B: ";
-    pilaB.print();
-    cout << endl;
-
-    // Cridem la funció logistica per fer els canvis
-    logistica(pack, pilaA, pilaB, pilaP);
-
-    // Mostrem l'estat final
-    cout << "L’estat final és el següent:" << endl;
-    cout << "A: ";
-    pilaA.print();
-    cout << endl;
-    cout << "P: ";
-    pilaP.print();
-    cout << endl;
-    cout << "B: ";
-    pilaB.print();
-    cout << endl;
-
 }
 
 // Implementem i adaptem el pseudocodi per moure elements
@@ -270,9 +227,57 @@ void logistica(int n, PilaEstatica<int> &pA, PilaEstatica<int> &pB, PilaEstatica
         cout << " tamaño = " << pB.tamano() << endl;
     } else{
         logistica(n-1, pA, pP, pB);
-        logistica(n, pA, pB, pP);
+        logistica(1, pA, pB, pP);
         logistica(n-1, pP, pB, pA);
     }
+}
+
+// Mètode del cas de prova Ex2
+void casProvaEx2(){
+    // Demanem a l'usuari el nombre de paquets i iniciem la pila A amb el quart constructor
+    int pack;
+    cout << "Hola, sóc el braç robòtic." << endl;
+    cout << "Introdueix el nombre de paquets: ";
+    cin >> pack;
+    cout << endl;
+    vector <int> A;
+    for (int i = pack; i >= 1; --i){
+        A.push_back(i);
+    }
+    PilaEstatica<int> pilaA(A);
+    // Iniciem les altres dues piles
+    PilaEstatica<int> pilaB(pack);
+    PilaEstatica<int> pilaP(pack);
+
+    // Mostrem l'estat incial
+    cout << "L’estat inicial és el següent:" << endl;
+    cout << "A: ";
+    pilaA.print();
+    cout << endl;
+    cout << "P: ";
+    pilaP.print();
+    cout << endl;
+    cout << "B: ";
+    pilaB.print();
+    cout << endl;
+
+    // Cridem la funció logistica per fer els canvis
+    cout << endl;
+    logistica(pack, pilaA, pilaB, pilaP);
+    cout << endl;
+
+    // Mostrem l'estat final
+    cout << "L’estat final és el següent:" << endl;
+    cout << "A: ";
+    pilaA.print();
+    cout << endl;
+    cout << "P: ";
+    pilaP.print();
+    cout << endl;
+    cout << "B: ";
+    pilaB.print();
+    cout << endl;
+
 }
 
 int main() {
