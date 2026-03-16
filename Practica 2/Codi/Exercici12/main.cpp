@@ -116,6 +116,7 @@ void casProvaEx1(){
     }
 }
 
+// Mètode del cas de prova amb menú
 void casProvaMenu(){
     string arr_options[] = {"1. Inserir element a la pila", "2. Suprimir element de la pila", 
                             "3. Consultar el top de la pila", "4. Imprimir tot el contingut de la PilaEstatica", 
@@ -204,9 +205,79 @@ void casProvaMenu(){
     }
 }
 
+// Mètode del cas de prova Ex2
+void casProvaEx2(){
+    // Demanem a l'usuari el nombre de paquets i iniciem la pila A amb el quart constructor
+    int pack;
+    cout << "Hola, sóc el braç robòtic." << endl;
+    cout << "Introdueix el nombre de paquets: ";
+    cin >> pack;
+    vector <int> A;
+    for (int i = 0; i < pack; ++i){
+        A.push_back(i);
+    }
+    PilaEstatica<int> pilaA(A);
+    // Iniciem les altres dues piles
+    PilaEstatica<int> pilaB(pack);
+    PilaEstatica<int> pilaP(pack);
+
+    // Mostrem l'estat incial
+    cout << "L’estat inicial és el següent:" << endl;
+    cout << "A: ";
+    pilaA.print();
+    cout << endl;
+    cout << "P: ";
+    pilaP.print();
+    cout << endl;
+    cout << "B: ";
+    pilaB.print();
+    cout << endl;
+
+    // Cridem la funció logistica per fer els canvis
+    logistica(pack, pilaA, pilaB, pilaP);
+
+    // Mostrem l'estat final
+    cout << "L’estat final és el següent:" << endl;
+    cout << "A: ";
+    pilaA.print();
+    cout << endl;
+    cout << "P: ";
+    pilaP.print();
+    cout << endl;
+    cout << "B: ";
+    pilaB.print();
+    cout << endl;
+
+}
+
+// Implementem i adaptem el pseudocodi per moure elements
+void logistica(int n, PilaEstatica<int> &pA, PilaEstatica<int> &pB, PilaEstatica<int> &pP){
+    // Si n == 1, llavors moure un paquet de pA a pB i mostrar l'estat intermig
+    if (n == 1){
+        int elemMogut = pA.elementoEncima();
+        pA.suprimirElemento();
+        pB.anadirElemento(elemMogut);
+        // Imprimir l'estat intermig
+        cout << "L'estat intermig és el següent:" << endl;
+        cout << "A: Pila = ";
+        pA.print();
+        cout << " tamaño = " << pA.tamano() << endl;
+        cout << "P: Pila = ";
+        pP.print();
+        cout << " tamaño = " << pP.tamano() << endl;
+        cout << "B: Pila = ";
+        pB.print();
+        cout << " tamaño = " << pB.tamano() << endl;
+    } else{
+        logistica(n-1, pA, pP, pB);
+        logistica(n, pA, pB, pP);
+        logistica(n-1, pP, pB, pA);
+    }
+}
+
 int main() {
     casProvaEx1();
     casProvaMenu();
-    
+    casProvaEx2();
     return 0;
 }
