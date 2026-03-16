@@ -3,7 +3,6 @@
 #ifndef POSITION_H
 #define POSITION_H
 #include <NodeList.h>
-
 using namespace std;
 
 template <class Element> class Position{
@@ -24,9 +23,37 @@ public:
     Position<Element> operator--() const; // sobrecarrega operador --
     bool operator==(const Position<Element> & other) const; // sobrecarrega operador ==
     bool operator!=(const Position<Element> & other) const; // sobrecarrega operador !=
-    const Element & operator*() const; // sobrecarrega operador contingut
+    const Element& operator*() const; // sobrecarrega operador contingut
 private:
     NodeList<Element> * _node;
 };
 
+// Constructor
+template <class Element> Position<Element>::Position(NodeList<Element>* node){}
+
+template <class Element> Position<Element>::Position(const Position& origen){}
+
+template <class Element> Position<Element>::~Position(){}
+
+template <class Element> Position<Element> Position<Element>::next() const{}
+
+template <class Element> Position<Element> Position<Element>::previous() const{}
+
+template <class Element> const Element& Position<Element>::element() const{}
+
+template <class Element> NodeList<Element>* Position<Element>::deletePosition(){}
+
+template <class Element> void Position<Element>::setPrevious(NodeList<Element>* node){}
+
+template <class Element> void Position<Element>::setNext(NodeList<Element>* node){}
+
+template <class Element> Position<Element> Position<Element>::operator++() const{}
+
+template <class Element> Position<Element> Position<Element>::operator--() const{}
+
+template <class Element> bool Position<Element>::operator==(const Position<Element> & other) const{}
+
+template <class Element> bool Position<Element>::operator!=(const Position<Element> & other) const{}
+
+template <class Element> const Element& Position<Element>::operator*() const{}
 #endif // POSITION_H

@@ -66,7 +66,7 @@ template <class Elemento> PilaEstatica<Elemento>::PilaEstatica(const vector<Elem
     }
     
 }
-
+// Mètodos
 template <class Elemento> int PilaEstatica<Elemento>::tamano() const{
     return this->_encima+1;
 }
@@ -78,7 +78,7 @@ template <class Elemento> bool PilaEstatica<Elemento>::estaLlena() const{
 }
 template <class Elemento> const Elemento& PilaEstatica<Elemento>::elementoEncima() const{
     if(this->estaVacia()){
-        throw out_of_range("L’estructura està buida");
+        throw out_of_range("L'estructura està buida");
     } else{
         return this->_datos[this->_encima];
     }
@@ -86,7 +86,7 @@ template <class Elemento> const Elemento& PilaEstatica<Elemento>::elementoEncima
 
 template <class Elemento> void PilaEstatica<Elemento>::anadirElemento(const Elemento &e){
     if(this->estaLlena()){
-        throw out_of_range("L’estructura està plena");
+        throw out_of_range("L'estructura està plena");
     } else{
         this->_datos.push_back(e);
         this->_encima++;
@@ -94,7 +94,7 @@ template <class Elemento> void PilaEstatica<Elemento>::anadirElemento(const Elem
 }
 template <class Elemento> void PilaEstatica<Elemento>::suprimirElemento(){
     if(this->estaVacia()){
-        throw out_of_range("L’estructura està buida");
+        throw out_of_range("L'estructura està buida");
     } else{
         this->_datos.pop_back();
         this->_encima--;
