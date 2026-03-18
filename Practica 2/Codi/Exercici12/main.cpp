@@ -15,7 +15,7 @@ void casProvaEx1(){
     // 2 "Inserir element 10"
     try {
         pila.anadirElemento(10);
-        cout << "Element " << pila.elementoEncima() << " agregat" << endl;
+        cout << "Element 10 agregat" << endl;
     } catch (exception &e) {
         cout << "EXEPTION: " << e.what() << endl;
     }
@@ -23,7 +23,7 @@ void casProvaEx1(){
     // 3 Inserir element 11
     try {
         pila.anadirElemento(11);
-        cout << "Element " << pila.elementoEncima() << " agregat" << endl;
+        cout << "Element 11 agregat" << endl;
     } catch (exception &e) {
         cout << "EXEPTION: " << e.what() << endl;
     }
@@ -38,7 +38,7 @@ void casProvaEx1(){
     // "Inserir element 12"
     try {
         pila.anadirElemento(12);
-        cout << "Element " << pila.elementoEncima() << " agregat" << endl;
+        cout << "Element 12 agregat" << endl;
     } catch (exception &e) {
         cout << "EXEPTION: " << e.what() << endl;
     }
@@ -46,7 +46,7 @@ void casProvaEx1(){
     // 6 Inserir element 13
     try {
         pila.anadirElemento(13);
-        cout << "Element " << pila.elementoEncima() << " agregat" << endl;
+        cout << "Element 13 agregat" << endl;
     } catch (exception &e) {
         cout << "EXEPTION: " << e.what() << endl;
     }
@@ -73,7 +73,7 @@ void casProvaEx1(){
     // 10 Inserir element 14
     try{
         pila.anadirElemento(14);
-        cout << "Element " << pila.elementoEncima() << " agregat" << endl;
+        cout << "Element 14 agregat" << endl;
     } catch (exception &e) {
         cout << "EXEPTION: " << e.what() << endl;
     }
