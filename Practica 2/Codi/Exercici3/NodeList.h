@@ -17,13 +17,11 @@ public:
     NodeList<Element>* accessPrevious() const; // retorna l'adreça del node anterior o nullptr en cas que no hi hagi terior
     void setPrevious(NodeList<Element>* node); // modifica l'adreça de _previous per l'adreça rebuda com a paràmetre
 
-
 private:
     Element _element;
     NodeList<Element>* _previous;
     NodeList<Element>* _next;
 };
-
 // Constructor
 template <class Element> NodeList<Element>::NodeList(){
     this->_previous = nullptr;
@@ -42,7 +40,7 @@ template <class Element> NodeList<Element>::NodeList(const NodeList<Element> &or
     this->_next = nullptr;
 }
 
-template <class Element> NodeList<Element>::~NodeList(){}
+template <class Element> NodeList<Element>::~NodeList(){} // No cal fer res
 
 // Mètodes
 template <class Element> Element& NodeList<Element>::accessElement() const{

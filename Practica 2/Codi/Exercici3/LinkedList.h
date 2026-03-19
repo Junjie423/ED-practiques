@@ -2,8 +2,8 @@
 
 #ifndef LINKED_LIST_H
 #define LINKED_LIST_H
-#include <NodeList.h>
-#include <Position.h>
+#include "NodeList.h"
+#include "Position.h"
 #include <initializer_list>
 using namespace std;
 
@@ -24,7 +24,7 @@ public:
     void insertEnd(const Element& element);
     void deletePosition(Position<Element>& position);
     void print() const;
-private:
+private:   
     NodeList<Element>* _head;
     NodeList<Element>* _tail;
     int _size;
@@ -32,15 +32,15 @@ private:
 
 // Constructors
 template <class Element> LinkedList<Element>::LinkedList(){
-    this->_head = nullptr;
-    this->_tail = nullptr;
+    this->_head = new NodeList<Element>(); // Fantasma
+    this->_tail = new NodeList<Element>(); // Fantasma
     this->_size = 0;
     
 }
 
 template <class Element> LinkedList<Element>::LinkedList(initializer_list<Element> elements){
-    this->_head = nullptr;
-    this->_tail = nullptr;
+    this->_head = new NodeList<Element>();
+    this->_tail = new NodeList<Element>();
     this->_size = 0;
     for(typename initializer_list<Element>::const_iterator itr = elements.beginning(); itr != elements.end(); ++itr){
         this->insertEnd(*itr);
@@ -48,11 +48,12 @@ template <class Element> LinkedList<Element>::LinkedList(initializer_list<Elemen
 }
 
 template <class Element> LinkedList<Element>::LinkedList(const LinkedList& origen){
-    this->_head = nullptr;
-    this->_tail = nullptr;
+    this->_head = new NodeList<Element>();
+    this->_tail = new NodeList<Element>();
     this->_size = 0;
-    for(typename Position<Element> itr = origen.beginning(); itr != origen.end(); ++itr){
+    for(typename Position<Element> itr = origen.beginning(); itr != origen.end(); itr = ++itr){
         this->insertEnd(*itr);
+
     }
 }
 
@@ -71,37 +72,52 @@ template <class Element> int LinkedList<Element>::size() const{
 }
 
 template <class Element> bool LinkedList<Element>::isEmpty() const{
-    return this->_size() == 1;
+    return this->_size() == 0;
 }
 
 template <class Element> Position<Element> LinkedList<Element>::beginning() const{
-    Position<Element> inici = this->_head;
-    return inici;
+    Position<Element> inici (this->_head);
+    return ++inici; // El següent del fantasm
 }
 
 template <class Element> Position<Element> LinkedList<Element>::end() const{
-    Position<Element> fin = this->_tail;
+    Position<Element> fin (this->_tail);
     return fin;
 }
 
 template <class Element> void LinkedList<Element>::insertAfter(Position<Element>& position, const Element& element){
-
+    // A <-> C     B
+    // A <-> B <-> C
+    NodeList<Element>* nou = new NodeList<Element>(element);
+    position.next().setPrevious(nou);// B <-> C
+    // Si next es nullptr vol dir que posicio es fantasma, i no es pot inserir després de fantasma
+    position.setNext(nou); // A <-> B
 }
 
 template <class Element> void LinkedList<Element>::insertBefore(Position<Element>& position, const Element& element){
-
+    // A <-> C     B
+    // A <-> B <-> C
+    NodeList<Element>* nou = new NodeList<Element>(element);
+    position.previous().setNext(nou);// A <-> B
+    // Si previous es nullptr vol dir que posicio es fantasma, i no es pot inserir abans de fantasma
+    position.setPrevious(nou); // B <-> C
 }
 
 template <class Element> void LinkedList<Element>::insertBeginning(const Element& element){
-
+    // F <-> A     B
+    // F <-> B <-> A
+    this->insertAfter(this->beginning(), element);
 }
-
+// Aqui
 template <class Element> void LinkedList<Element>::insertEnd(const Element& element){
-
+    this->insertBefore(this->end(), element);
 }
 
 template <class Element> void LinkedList<Element>::deletePosition(Position<Element>& position){
-
+    if (position == end() || position == (--beginning())){
+        throw runtime_error("No es pot eliminar el fantasma");
+    }
+    delete position.deletePosition();
 }
 
 template <class Element> void LinkedList<Element>::print() const{

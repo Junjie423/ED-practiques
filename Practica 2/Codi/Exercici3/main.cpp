@@ -3,6 +3,7 @@
 #include<LinkedList.h>
 #include<NodeList.h>
 #include<Position.h>
+#include<iostream>
 using namespace std;
 
 void casProva1(){
@@ -48,4 +49,14 @@ void casProva1(){
     pos2 = ++pos2;
     list2.deletePosition(pos2);
     list2.print();
+}
+
+void casProva2(){
+    
+}
+
+int main(){
+    casProva1();
+    casProva2();
+    return 0;
 }

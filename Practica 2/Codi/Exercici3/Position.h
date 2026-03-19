@@ -2,7 +2,7 @@
 
 #ifndef POSITION_H
 #define POSITION_H
-#include <NodeList.h>
+#include "NodeList.h"
 using namespace std;
 
 template <class Element> class Position{
@@ -43,65 +43,74 @@ template <class Element> Position<Element>::~Position(){
 
 // Mètodes
 template <class Element> Position<Element> Position<Element>::next() const{
+    // Si no apunta a cap node o el seguent no apunta a res 
     if (this->_node == nullptr || this->_node->accessNext() == nullptr){
-        throw new out_of_range("No existeix següent posició");
+        throw out_of_range("No existeix següent posició");
     }
     return this->_node->accesNext();
 }
 
 template <class Element> Position<Element> Position<Element>::previous() const{
+    // Si no apunta a res o el anterior no apunta res
     if (this->_node == nullptr || this->_node->accessPrevious() == nullptr){
-        throw new out_of_range("No existeix anterior posició");
+        throw out_of_range("No existeix anterior posició");
     }
     return this->_node->accessPrevious();
 }
 
 template <class Element> const Element& Position<Element>::element() const{
+    // Si no apunta a cap node
     if (this->_node == nullptr){
-        throw new runtime_error("No hi ha element en aquesta posició");
+        throw runtime_error("No hi ha element en aquesta posició");
     }
     return this->_node->accesElement();
 }
 
-template <class Element> NodeList<Element>* Position<Element>::deletePosition(){
+template <class Element> NodeList<Element>* Position<Element>::deletePosition(){ //Desconectar
     if (this->_node == nullptr){
-        throw new runtime_error("No hi ha element per eliminar");
+        throw runtime_error("No hi ha element per eliminar");
     }
-    // Creem un auxiliar per apuntar el node que s'eliminarà, per després retornar-ho
-    NodeList<Element>* eliminat = this->_node;
+    
     // Creem dues NodeList que apunten el següent i el anterior node
     NodeList<Element>* seg = this->_node->accessNext();
     NodeList<Element>* ant = this->_node->accessPrevious();
 
     // Ara fem que el anterior i el següent s'apuntin saltant el _node
-    // Si hi ha següent (no es null)
+    // Si hi ha següent (no es null)A <-> B <-> C
     if (seg != nullptr){
         seg->setPrevious(ant);
     }
-    // Si hi ha anterior (no es null)
-    if (pre != nullptr){
-        pre->setNext(seg);
-    }
-    // Ara _node aurà d'apuntar el següent (però si no hi ha el anterior)
-    // Així hem eliminat el node que apunta _node de la llista
-    if (seg != nullptr){
-        this->_node = seg;
-    } else{
-        this->_node = ant;
-    }
-    return eliminat;
+    // Si hi ha anterior (no es null). C <-> A ; A <- B -> C
+    if (ant != nullptr){ 
+        ant->setNext(seg);
+    }       this->_node
+    
+    this->_node->setNext(nullptr);
+    this->_node->setPrevious(nullptr);
+    //C <-> A 
+
+    return this->_node;
 }
 
 template <class Element> void Position<Element>::setPrevious(NodeList<Element>* node){
-    if(this->_node != nullptr){
-        this->_node->setPrevious(node);
+    if (node == nullptr || this->_node == nullptr){
+        throw runtime_error("No hi ha cap node apuntat");
     }
+    // A <- B
+    this->_node->setPrevious(node);
+    //  A <-> B
+    node->setNext(this->_node);    
 }
 
 template <class Element> void Position<Element>::setNext(NodeList<Element>* node){
-        if(this->_node != nullptr){
-        this->_node->setNext(node);
+    if (node == nullptr || this->_node == nullptr){
+        throw runtime_error("No hi ha cap node apuntat");
     }
+    // A -> B 
+    this->_node->setNext(node);
+    //  A <-> B 
+    node->setPrevious(this->_node);
+
 }
 
 template <class Element> Position<Element> Position<Element>::operator++() const{
@@ -113,11 +122,11 @@ template <class Element> Position<Element> Position<Element>::operator--() const
 }
 
 template <class Element> bool Position<Element>::operator==(const Position<Element> & other) const{
-    return this->_node == other->_node;
+    return this->_node == other._node;
 }
 
 template <class Element> bool Position<Element>::operator!=(const Position<Element> & other) const{
-    return this->_node != other->_node;
+    return this->_node != other._node;
 }
 
 template <class Element> const Element& Position<Element>::operator*() const{
