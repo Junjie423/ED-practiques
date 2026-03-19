@@ -75,24 +75,37 @@ template <class Element> bool LinkedList<Element>::isEmpty() const{
 }
 
 template <class Element> Position<Element> LinkedList<Element>::beginning() const{
-    return Position<Element>(_head);
+    Position<Element> inici = this->_head;
+    return inici;
 }
 
 template <class Element> Position<Element> LinkedList<Element>::end() const{
-    return Position<Element>(_tail);
+    Position<Element> fin = this->_tail;
+    return fin;
 }
 
 template <class Element> void LinkedList<Element>::insertAfter(Position<Element>& position, const Element& element){
-    
+
 }
 
-template <class Element> void LinkedList<Element>::insertBefore(Position<Element>& position, const Element& element){}
+template <class Element> void LinkedList<Element>::insertBefore(Position<Element>& position, const Element& element){
 
-template <class Element> void LinkedList<Element>::insertBeginning(const Element& element){}
+}
 
-template <class Element> void LinkedList<Element>::insertEnd(const Element& element){}
+template <class Element> void LinkedList<Element>::insertBeginning(const Element& element){
 
-template <class Element> void LinkedList<Element>::deletePosition(Position<Element>& position){}
+}
 
-template <class Element> void LinkedList<Element>::print() const{}
+template <class Element> void LinkedList<Element>::insertEnd(const Element& element){
+
+}
+
+template <class Element> void LinkedList<Element>::deletePosition(Position<Element>& position){
+
+}
+
+template <class Element> void LinkedList<Element>::print() const{
+
+}
+
 #endif // LINKED_LIST_H
