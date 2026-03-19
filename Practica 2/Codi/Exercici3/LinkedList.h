@@ -31,24 +31,60 @@ private:
 };
 
 // Constructors
-template <class Element> LinkedList<Element>::LinkedList(){}
+template <class Element> LinkedList<Element>::LinkedList(){
+    this->_head = nullptr;
+    this->_tail = nullptr;
+    this->_size = 0;
+    
+}
 
-template <class Element> LinkedList<Element>::LinkedList(initializer_list<Element> elements){}
+template <class Element> LinkedList<Element>::LinkedList(initializer_list<Element> elements){
+    this->_head = nullptr;
+    this->_tail = nullptr;
+    this->_size = 0;
+    for(typename initializer_list<Element>::const_iterator itr = elements.beginning(); itr != elements.end(); ++itr){
+        this->insertEnd(*itr);
+    }
+}
 
-template <class Element> LinkedList<Element>::LinkedList(const LinkedList& origen){}
+template <class Element> LinkedList<Element>::LinkedList(const LinkedList& origen){
+    this->_head = nullptr;
+    this->_tail = nullptr;
+    this->_size = 0;
+    for(typename Position<Element> itr = origen.beginning(); itr != origen.end(); ++itr){
+        this->insertEnd(*itr);
+    }
+}
 
-template <class Element> LinkedList<Element>::~LinkedList(){}
+template <class Element> LinkedList<Element>::~LinkedList(){
+    while(this->!isEmpty()){
+        Position<Element> aux = this->beginning();
+        this->deletePosition(aux); 
+    }
+    delete _head;
+    delete _tail;
+}
 
 // Mètodos
-template <class Element> int LinkedList<Element>::size() const{}
+template <class Element> int LinkedList<Element>::size() const{
+    return this->_size;
+}
 
-template <class Element> bool LinkedList<Element>::isEmpty() const{}
+template <class Element> bool LinkedList<Element>::isEmpty() const{
+    return this->_size() == 1;
+}
 
-template <class Element> Position<Element> LinkedList<Element>::beginning() const{}
+template <class Element> Position<Element> LinkedList<Element>::beginning() const{
+    return Position<Element>(_head);
+}
 
-template <class Element> Position<Element> LinkedList<Element>::end() const{}
+template <class Element> Position<Element> LinkedList<Element>::end() const{
+    return Position<Element>(_tail);
+}
 
-template <class Element> void LinkedList<Element>::insertAfter(Position<Element>& position, const Element& element){}
+template <class Element> void LinkedList<Element>::insertAfter(Position<Element>& position, const Element& element){
+    
+}
 
 template <class Element> void LinkedList<Element>::insertBefore(Position<Element>& position, const Element& element){}
 
