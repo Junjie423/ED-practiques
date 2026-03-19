@@ -3,6 +3,7 @@
 #ifndef POSITION_H
 #define POSITION_H
 #include "NodeList.h"
+#include <stdexcept>
 using namespace std;
 
 template <class Element> class Position{
@@ -63,7 +64,7 @@ template <class Element> const Element& Position<Element>::element() const{
     if (this->_node == nullptr){
         throw runtime_error("No hi ha element en aquesta posició");
     }
-    return this->_node->accesElement();
+    return this->_node->accessElement();
 }
 
 template <class Element> NodeList<Element>* Position<Element>::deletePosition(){ //Desconectar
@@ -83,7 +84,7 @@ template <class Element> NodeList<Element>* Position<Element>::deletePosition(){
     // Si hi ha anterior (no es null). C <-> A ; A <- B -> C
     if (ant != nullptr){ 
         ant->setNext(seg);
-    }       this->_node
+    }       this->_node;
     
     this->_node->setNext(nullptr);
     this->_node->setPrevious(nullptr);

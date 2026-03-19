@@ -1,9 +1,10 @@
 // Autor: Junjie Zhou
 
-#ifndef LINKED_LIST_H
-#define LINKED_LIST_H
+#ifndef LINKEDLIST_H
+#define LINKEDLIST_H
 #include "NodeList.h"
 #include "Position.h"
+#include <iostream>
 #include <initializer_list>
 using namespace std;
 
@@ -51,14 +52,14 @@ template <class Element> LinkedList<Element>::LinkedList(const LinkedList& orige
     this->_head = new NodeList<Element>();
     this->_tail = new NodeList<Element>();
     this->_size = 0;
-    for(typename Position<Element> itr = origen.beginning(); itr != origen.end(); itr = ++itr){
+    for(Position<Element> itr = origen.beginning(); itr != origen.end(); itr = ++itr){
         this->insertEnd(*itr);
 
     }
 }
 
 template <class Element> LinkedList<Element>::~LinkedList(){
-    while(this->!isEmpty()){
+    while(!(this->isEmpty())){
         Position<Element> aux = this->beginning();
         this->deletePosition(aux); 
     }
@@ -72,7 +73,7 @@ template <class Element> int LinkedList<Element>::size() const{
 }
 
 template <class Element> bool LinkedList<Element>::isEmpty() const{
-    return this->_size() == 0;
+    return this->_size == 0;
 }
 
 template <class Element> Position<Element> LinkedList<Element>::beginning() const{
@@ -104,13 +105,15 @@ template <class Element> void LinkedList<Element>::insertBefore(Position<Element
 }
 
 template <class Element> void LinkedList<Element>::insertBeginning(const Element& element){
-    // F <-> A     B
-    // F <-> B <-> A
-    this->insertAfter(this->beginning(), element);
+    // F <-> B     A
+    // F <-> A <-> B
+    Position<Element> inici = this->beginning();
+    this->insertBefore(inici, element);        
 }
-// Aqui
+
 template <class Element> void LinkedList<Element>::insertEnd(const Element& element){
-    this->insertBefore(this->end(), element);
+    Position<Element> fin = this->end();
+    this->insertBefore(fin, element);
 }
 
 template <class Element> void LinkedList<Element>::deletePosition(Position<Element>& position){
@@ -119,9 +122,24 @@ template <class Element> void LinkedList<Element>::deletePosition(Position<Eleme
     }
     delete position.deletePosition();
 }
-
 template <class Element> void LinkedList<Element>::print() const{
+    if(this->isEmpty()){
+        cout << "La llista està buida" << endl;
+    } else{
+        for (Position<Element> itr = this->beginning(); itr != this->end(); itr = ++itr){
+            cout << itr.element() << endl;
+        }
+    }
 
+    if (isEmpty()){
+        cout << "[]" << endl;
+        return;
+    }
+    else{
+        cout << "[";
+        for(auto it = beginning(); it != end().previous(); it = ++it) cout << *it << ", ";
+        cout << "]"<< endl;
+    }
 }
 
 #endif // LINKED_LIST_H

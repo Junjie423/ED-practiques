@@ -1,9 +1,9 @@
 // Autor: Junjie Zhou
 
-#include<LinkedList.h>
-#include<NodeList.h>
-#include<Position.h>
-#include<iostream>
+#include "LinkedList.h"
+#include "NodeList.h"
+#include "Position.h"
+#include <iostream>
 using namespace std;
 
 void casProva1(){
@@ -57,6 +57,6 @@ void casProva2(){
 
 int main(){
     casProva1();
-    casProva2();
+    //casProva2();
     return 0;
 }

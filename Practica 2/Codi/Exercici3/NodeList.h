@@ -1,7 +1,7 @@
 // Autor: Junjie Zhou
 
-#ifndef NODE_:LIST_H
-#define NODE_LIST_H
+#ifndef NODELIST_H
+#define NODELIST_H
 using namespace std;
 
 template <class Element> class NodeList{
@@ -18,7 +18,7 @@ public:
     void setPrevious(NodeList<Element>* node); // modifica l'adreça de _previous per l'adreça rebuda com a paràmetre
 
 private:
-    Element _element;
+    Element* _element;
     NodeList<Element>* _previous;
     NodeList<Element>* _next;
 };
