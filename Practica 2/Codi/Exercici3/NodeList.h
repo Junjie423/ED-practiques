@@ -26,28 +26,43 @@ private:
 
 // Constructor
 template <class Element> NodeList<Element>::NodeList(){
-
+    this->_previous = nullptr;
+    this->_next = nullptr;
 }
 
 template <class Element> NodeList<Element>::NodeList(const Element elem){
-    
+    this->_element = elem;
+    this->_previous = nullptr;
+    this->_next = nullptr;
 }
 
 template <class Element> NodeList<Element>::NodeList(const NodeList<Element> &original){
-   
+    this->_element = original.accessElement();
+    this->_previous = nullptr;
+    this->_next = nullptr;
 }
 
 template <class Element> NodeList<Element>::~NodeList(){}
 
 // Mètodes
-template <class Element> Element& NodeList<Element>::accessElement() const{}
+template <class Element> Element& NodeList<Element>::accessElement() const{
+    return this->_element;
+}
 
-template <class Element> NodeList<Element>* NodeList<Element>::accessNext() const{}
+template <class Element> NodeList<Element>* NodeList<Element>::accessNext() const{
+    return this->_next;
+}
 
-template <class Element> NodeList<Element>* NodeList<Element>::accessPrevious() const{}
+template <class Element> void NodeList<Element>::setNext(NodeList<Element>* node){
+    this->_next = node;
+}
 
-template <class Element> void NodeList<Element>::setNext(NodeList<Element>* node){}
+template <class Element> NodeList<Element>* NodeList<Element>::accessPrevious() const{
+    return this->_previous;
+}
 
-template <class Element> void NodeList<Element>::setPrevious(NodeList<Element>* node){}
+template <class Element> void NodeList<Element>::setPrevious(NodeList<Element>* node){
+    this->_previous = node;
+}
 
 #endif // NODE_LIST_H
