@@ -1,4 +1,4 @@
-// Autor: Junjie Zhou ♡♡♡
+// Autor: Junjie Zhou
 
 #include "LinkedList.h"
 #include "NodeList.h"
