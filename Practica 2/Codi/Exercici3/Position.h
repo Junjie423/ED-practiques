@@ -48,7 +48,7 @@ template <class Element> Position<Element> Position<Element>::next() const{
     if (this->_node == nullptr || this->_node->accessNext() == nullptr){
         throw out_of_range("No existeix següent posició");
     }
-    return this->_node->accesNext();
+    return Position<Element> (this->_node->accessNext());
 }
 
 template <class Element> Position<Element> Position<Element>::previous() const{
@@ -56,7 +56,7 @@ template <class Element> Position<Element> Position<Element>::previous() const{
     if (this->_node == nullptr || this->_node->accessPrevious() == nullptr){
         throw out_of_range("No existeix anterior posició");
     }
-    return this->_node->accessPrevious();
+    return Position<Element> (this->_node->accessPrevious());
 }
 
 template <class Element> const Element& Position<Element>::element() const{

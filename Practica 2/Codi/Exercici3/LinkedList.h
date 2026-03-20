@@ -43,7 +43,7 @@ template <class Element> LinkedList<Element>::LinkedList(initializer_list<Elemen
     this->_head = new NodeList<Element>();
     this->_tail = new NodeList<Element>();
     this->_size = 0;
-    for(typename initializer_list<Element>::const_iterator itr = elements.beginning(); itr != elements.end(); ++itr){
+    for(typename initializer_list<Element>::iterator itr = elements.beginning(); itr != elements.end(); ++itr){
         this->insertEnd(*itr);
     }
 }
@@ -127,7 +127,7 @@ template <class Element> void LinkedList<Element>::print() const{
         cout << "La llista està buida" << endl;
     } else{
         for (Position<Element> itr = this->beginning(); itr != this->end(); itr = ++itr){
-            cout << itr.element() << endl;
+            cout << *itr << endl;
         }
     }
 
