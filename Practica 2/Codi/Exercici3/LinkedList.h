@@ -35,6 +35,9 @@ private:
 template <class Element> LinkedList<Element>::LinkedList(){
     this->_head = new NodeList<Element>(); // Fantasma
     this->_tail = new NodeList<Element>(); // Fantasma
+    //A<->B
+    this->_head->setNext(this->_tail);
+    this->_tail->setPrevious(this->_head);
     this->_size = 0;
     
 }
@@ -42,8 +45,12 @@ template <class Element> LinkedList<Element>::LinkedList(){
 template <class Element> LinkedList<Element>::LinkedList(initializer_list<Element> elements){
     this->_head = new NodeList<Element>();
     this->_tail = new NodeList<Element>();
+    //A<->B
+    this->_head->setNext(this->_tail);
+    this->_tail->setPrevious(this->_head);
     this->_size = 0;
-    for(typename initializer_list<Element>::iterator itr = elements.beginning(); itr != elements.end(); ++itr){
+
+    for(typename initializer_list<Element>::iterator itr = elements.begin(); itr != elements.end(); ++itr){
         this->insertEnd(*itr);
     }
 }
@@ -51,10 +58,13 @@ template <class Element> LinkedList<Element>::LinkedList(initializer_list<Elemen
 template <class Element> LinkedList<Element>::LinkedList(const LinkedList& origen){
     this->_head = new NodeList<Element>();
     this->_tail = new NodeList<Element>();
+    //A<->B
+    this->_head->setNext(this->_tail);
+    this->_tail->setPrevious(this->_head);
     this->_size = 0;
+
     for(Position<Element> itr = origen.beginning(); itr != origen.end(); itr = ++itr){
         this->insertEnd(*itr);
-
     }
 }
 
@@ -93,6 +103,7 @@ template <class Element> void LinkedList<Element>::insertAfter(Position<Element>
     position.next().setPrevious(nou);// B <-> C
     // Si next es nullptr vol dir que posicio es fantasma, i no es pot inserir després de fantasma
     position.setNext(nou); // A <-> B
+    this->_size ++;
 }
 
 template <class Element> void LinkedList<Element>::insertBefore(Position<Element>& position, const Element& element){
@@ -102,6 +113,7 @@ template <class Element> void LinkedList<Element>::insertBefore(Position<Element
     position.previous().setNext(nou);// A <-> B
     // Si previous es nullptr vol dir que posicio es fantasma, i no es pot inserir abans de fantasma
     position.setPrevious(nou); // B <-> C
+    this->_size ++;
 }
 
 template <class Element> void LinkedList<Element>::insertBeginning(const Element& element){
@@ -117,10 +129,11 @@ template <class Element> void LinkedList<Element>::insertEnd(const Element& elem
 }
 
 template <class Element> void LinkedList<Element>::deletePosition(Position<Element>& position){
-    if (position == end() || position == (--beginning())){
-        throw runtime_error("No es pot eliminar el fantasma");
-    }
+    //if (position == end() || position == (--beginning())){
+    //    throw runtime_error("No es pot eliminar el fantasma");
+    //}
     delete position.deletePosition();
+    this->_size --;
 }
 template <class Element> void LinkedList<Element>::print() const{
     if(this->isEmpty()){
@@ -130,16 +143,21 @@ template <class Element> void LinkedList<Element>::print() const{
             cout << *itr << endl;
         }
     }
+    cout << endl;
+    /*
+    Una manera més bonica per fer print de la llista, diferent del exemple de sortida 
+    que ens dona en el casProva2 de l'ex3.
 
     if (isEmpty()){
         cout << "[]" << endl;
         return;
     }
-    else{
-        cout << "[";
-        for(auto it = beginning(); it != end().previous(); it = ++it) cout << *it << ", ";
-        cout << "]"<< endl;
-    }
+    cout << "[";
+    auto it = beginning();
+    for(; it != --end(); it = ++it) cout << *it << ", ";
+    cout << *it << "]"<< endl;
+
+    */
 }
 
 #endif // LINKED_LIST_H

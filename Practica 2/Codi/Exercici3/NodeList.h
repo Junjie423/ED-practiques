@@ -2,7 +2,7 @@
 
 #ifndef NODELIST_H
 #define NODELIST_H
-using namespace std;
+
 
 template <class Element> class NodeList{
 
@@ -12,9 +12,9 @@ public:
     NodeList(const NodeList<Element> &original); // constructor còpia
     ~NodeList(); // destructor 
     const Element& accessElement() const; // retorna l’element que hi ha guardat al node
-    const NodeList<Element>* accessNext() const; // retorna l'adreça del següent node o nullptr en cas que no hi hagi següent
+    NodeList<Element>* accessNext() const; // retorna l'adreça del següent node o nullptr en cas que no hi hagi següent
     void setNext(NodeList<Element>* node); // modifica l'adreça de _next per l’adreça rebuda com a paràmetre
-    const NodeList<Element>* accessPrevious() const; // retorna l'adreça del node anterior o nullptr en cas que no hi hagi terior
+    NodeList<Element>* accessPrevious() const; // retorna l'adreça del node anterior o nullptr en cas que no hi hagi terior
     void setPrevious(NodeList<Element>* node); // modifica l'adreça de _previous per l'adreça rebuda com a paràmetre
 
 private:
@@ -47,7 +47,7 @@ template <class Element> const Element& NodeList<Element>::accessElement() const
     return this->_element;
 }
 
-template <class Element> const NodeList<Element>* NodeList<Element>::accessNext() const{
+template <class Element> NodeList<Element>* NodeList<Element>::accessNext() const{
     return this->_next;
 }
 
@@ -55,7 +55,7 @@ template <class Element> void NodeList<Element>::setNext(NodeList<Element>* node
     this->_next = node;
 }
 
-template <class Element> const NodeList<Element>* NodeList<Element>::accessPrevious() const{
+template <class Element> NodeList<Element>* NodeList<Element>::accessPrevious() const{
     return this->_previous;
 }
 

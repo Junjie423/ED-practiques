@@ -48,7 +48,8 @@ template <class Element> Position<Element> Position<Element>::next() const{
     if (this->_node == nullptr || this->_node->accessNext() == nullptr){
         throw out_of_range("No existeix següent posició");
     }
-    return Position<Element> (this->_node->accessNext());
+    NodeList<Element>* nodeSeg = this->_node->accessNext();
+    return Position<Element> (nodeSeg);
 }
 
 template <class Element> Position<Element> Position<Element>::previous() const{
@@ -56,8 +57,10 @@ template <class Element> Position<Element> Position<Element>::previous() const{
     if (this->_node == nullptr || this->_node->accessPrevious() == nullptr){
         throw out_of_range("No existeix anterior posició");
     }
-    return Position<Element> (this->_node->accessPrevious());
+    NodeList<Element>* nodeAnt = this->_node->accessPrevious();
+    return Position<Element> (nodeAnt);
 }
+
 
 template <class Element> const Element& Position<Element>::element() const{
     // Si no apunta a cap node
@@ -84,7 +87,7 @@ template <class Element> NodeList<Element>* Position<Element>::deletePosition(){
     // Si hi ha anterior (no es null). C <-> A ; A <- B -> C
     if (ant != nullptr){ 
         ant->setNext(seg);
-    }       this->_node;
+    }
     
     this->_node->setNext(nullptr);
     this->_node->setPrevious(nullptr);
