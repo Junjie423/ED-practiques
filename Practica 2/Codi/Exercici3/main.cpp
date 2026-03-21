@@ -138,6 +138,7 @@ void casProva2(){
                     pos--;
                 }
                 if(actual == llista.end()){
+                    cout << "S'ha afegit per defecte al final de la llista" << endl;
                     llista.insertEnd(paraula);
                     num--;
                     continue;
