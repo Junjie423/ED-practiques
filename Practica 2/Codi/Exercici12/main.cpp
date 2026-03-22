@@ -196,6 +196,9 @@ void casProvaMenu(){
          // Cas imprimir posició top
         case 5:
             try{
+                if (pila.estaVacia()){
+                    throw out_of_range("L'estructura està buida");
+                }
                 cout << "Posicio del top: " << pila.tamano() - 1 << endl;
             } catch(exception &e){
                 cout << "Error: " << e.what() << endl;
@@ -287,4 +290,4 @@ int main() {
     casProvaMenu();
     casProvaEx2();
     return 0;
-}
+}                                                                                                                                                                                                                                                                                                                  
