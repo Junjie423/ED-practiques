@@ -149,6 +149,11 @@ char inserirPosicio(){
 }
 
 void casProva2(){
+    // Per si el casProva 1 dona error i l'entrada es manté
+    if(cin.fail()){
+        cin.clear();
+        cin.ignore(100,'\n');
+    }
     // Iniciem una llista
     LinkedList<string> llista = LinkedList<string>();
     // Demanem el nombre de paraules
@@ -188,7 +193,7 @@ void casProva2(){
                         cin.ignore(100,'\n');
                         pos = -1;
                     } 
-                } while(num < 0); 
+                } while(pos < 0); 
                 Position<string> actual = llista.beginning();
                 while ( pos > 0 && actual!=llista.end()){
                     actual = actual.next();
