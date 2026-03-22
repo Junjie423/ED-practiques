@@ -32,6 +32,7 @@ private:
 };
 
 // Constructors
+// Per defecte
 template <class Element> LinkedList<Element>::LinkedList(){
     this->_head = new NodeList<Element>(); // Fantasma
     this->_tail = new NodeList<Element>(); // Fantasma
@@ -41,7 +42,7 @@ template <class Element> LinkedList<Element>::LinkedList(){
     this->_size = 0;
     
 }
-
+// initializer_list com a paràmetre
 template <class Element> LinkedList<Element>::LinkedList(initializer_list<Element> elements){
     this->_head = new NodeList<Element>();
     this->_tail = new NodeList<Element>();
@@ -54,7 +55,7 @@ template <class Element> LinkedList<Element>::LinkedList(initializer_list<Elemen
         this->insertEnd(*itr);
     }
 }
-
+// Constructor còpia
 template <class Element> LinkedList<Element>::LinkedList(const LinkedList& origen){
     this->_head = new NodeList<Element>();
     this->_tail = new NodeList<Element>();
@@ -67,7 +68,7 @@ template <class Element> LinkedList<Element>::LinkedList(const LinkedList& orige
         this->insertEnd(*itr);
     }
 }
-
+// Destructor
 template <class Element> LinkedList<Element>::~LinkedList(){
     while(!(this->isEmpty())){
         Position<Element> aux = this->beginning();
@@ -87,7 +88,7 @@ template <class Element> bool LinkedList<Element>::isEmpty() const{
 }
 
 template <class Element> Position<Element> LinkedList<Element>::beginning() const{
-    return Position<Element> (this->_head->getNext()); // El següent del fantasm
+    return Position<Element> (this->_head->accessNext()); // El següent del fantasm
 }
 
 template <class Element> Position<Element> LinkedList<Element>::end() const{

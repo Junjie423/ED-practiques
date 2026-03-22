@@ -105,7 +105,7 @@ template <class Elemento> void PilaEstatica<Elemento>::print() const{
     if (!estaVacia()){
         cout << "[";
         typename vector<Elemento>::const_iterator itr = this->_datos.begin();
-        for (int i = 0; itr < this->_datos.end()-1; ++itr){
+        for (; itr < this->_datos.end()-1; ++itr){
             cout << *itr << ", ";
         
         }

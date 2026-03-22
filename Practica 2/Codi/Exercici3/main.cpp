@@ -4,10 +4,58 @@
 Preguntes sobre la pràctica:
 1. Tenint en compte la teva implementació del TAD LinkedList, indica per a cadascuna de les
 operacions del TAD Llista quin és el seu cost computacional teòric. Justifica la resposta.
+    Constructors i destructor:
+    LinkedList(): Té complexitat O(1), perquè només crea dos NodeList (complexitat O(1)) i els 
+    encadena un a l'altre i assigna 0 a l'atribut _size.
+
+    LinkedList(initializer_list<Element> elements): Té complexitat O(n) on n és la longitud de
+    initializer_list, ja que recorreix tota la llista per afegir nodes amb l'element un per un a la llista.
+
+    LinkedList(const LinkedList& origen): Té complexitat O(n) on n és el size de la LinkedList que
+    serveix com a parametre, perquè recorre tota la LinkedList amb un iterador de tipus Position
+    per afegir nodes amb l'element a la llista (un per un).
+
+    ~LinkedList(): També té complexitat O(n) perquè elimina un per un fins que la LinkedList estigui buida.
+
+    Mètodes:
+    size(): Té complexitat O(1), perquè només retorna el atribut _size.
+
+    isEmpty(): Té complexitat O(1), només retorna si _size és igual a 0.
+
+    beginning(): Té complexitat O(1), perquè accedeix directament al _next de NodeList (accesNext() de Nodelist té
+    O(1) i next() de Position també té O(1)).
+
+    end(): Té complexitat O(1) perquè accedeix directament a l'atribut _tail.
+
+    insertAfter(Position<Element>& position, const Element& element): Té complexitat O(1), perquè només crea un nou 
+    node amb l'element i actualitza els enllaços (setNext() i setPrevious() tenen complexitat O(1)).
+
+    insertBefore(Position<Element>& position, const Element& element): Té també complexitat O(1), pel mateix motiu
+    que insertAfter().
+
+    insertBeginning(const Element& element): Té complexitat O(1), perquè crida a insertBefore() amb la posició del 
+    beginning.
+
+    insertEnd(const Element& element): També és O(1), perquè crida a insertBefore() amb la posició de end.
+
+    deletePosition(Position<Element>& position): Té complexitat O(1), perquè crida només el mètode deletePosition de
+    la classe Position, aquest métode és també de O(1), perquè només actualitza enllaços.
+
+    print(): Aquest últim mètode té complexitat O(n), perquè ha de recorrer tota la LinkedList per imprimir per 
+    pantalla, tots els elements, en ordre.
 
 
 2. Creieu que la classe NodeList hauria estat millor implementar-la amb encadenaments simples?
 Justifica la teva resposta.
+    Crec que no hauria estat millor implementar la classe NodeList amb encadenaments simples perquè 
+    si fossin cadenes simples, només podrem avançar per la llista i no podrem anar cap enrere. Aixó
+    provocarà que els mètodes per inserir abans i inserir després, tindran una complexitat computacional 
+    molt més elevada, ja que hauràn de recorrer en el pitjor cas tota la  llista per arribar a la posició 
+    on cal inserir el nou node amb l'element. A més, per eliminar algún node, també tindrà complexitat O(n). 
+    Finalment, els nodes _head i _tail, els dos fantasmes, sense doble encadenació, perden la funcionalitat 
+    de simplificar el cost en afegir nodes al principi i al final. D'altra banda, en aquest cas, que no estem
+    tractant una cua o una pila, no té sentit utilitzar encadenaments simples.
+
 */
 #include "LinkedList.h"
 #include "NodeList.h"
@@ -69,7 +117,7 @@ char inserirPrincipi(){
         if(sn != "s" && sn != "n"){
             cout << "Ha de ser 's' o 'n' en minúscules" << endl;
         }
-    }while (sn != "s'"&& sn != "n");
+    }while (sn != "s" && sn != "n");
     return sn[0];
 }
 

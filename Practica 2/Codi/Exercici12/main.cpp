@@ -131,8 +131,8 @@ void casProvaMenu(){
         cout << "Que vols fer?" << endl;
         // Utilitzant el do...while... podem fer que mostri almenys una vegada el menu
         do{
-            for (int i = 0; i < options.size(); i++) {
-                cout << options[i] << endl;
+            for (auto itr = options.begin(); itr != options.end(); ++itr) {
+                cout << *itr << endl;
             }
             //Guardem l'opció de l'usuari
             cin >> option;
@@ -155,7 +155,7 @@ void casProvaMenu(){
                 cin >> num;
                 cout << endl;
                 if(cin.fail()){
-                    throw new invalid_argument("Ha de ser un enter");
+                    throw invalid_argument("Ha de ser un enter");
                 }
                 pila.anadirElemento(num);
                 cout << "Element " << pila.elementoEncima() << " agregat" << endl;
