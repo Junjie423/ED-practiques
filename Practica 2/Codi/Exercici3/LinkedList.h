@@ -87,13 +87,11 @@ template <class Element> bool LinkedList<Element>::isEmpty() const{
 }
 
 template <class Element> Position<Element> LinkedList<Element>::beginning() const{
-    Position<Element> inici (this->_head);
-    return ++inici; // El següent del fantasm
+    return Position<Element> (this->_head->getNext()); // El següent del fantasm
 }
 
 template <class Element> Position<Element> LinkedList<Element>::end() const{
-    Position<Element> fin (this->_tail);
-    return fin;
+    return Position<Element> (this->_tail); // El fantasma
 }
 
 template <class Element> void LinkedList<Element>::insertAfter(Position<Element>& position, const Element& element){

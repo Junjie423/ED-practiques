@@ -1,5 +1,14 @@
 // Autor: Junjie Zhou
 
+/*
+Preguntes sobre la pràctica:
+1. Tenint en compte la teva implementació del TAD LinkedList, indica per a cadascuna de les
+operacions del TAD Llista quin és el seu cost computacional teòric. Justifica la resposta.
+
+
+2. Creieu que la classe NodeList hauria estat millor implementar-la amb encadenaments simples?
+Justifica la teva resposta.
+*/
 #include "LinkedList.h"
 #include "NodeList.h"
 #include "Position.h"
