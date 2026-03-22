@@ -128,9 +128,10 @@ void casProvaMenu(){
     PilaEstatica<int> pila;
     cout << "Hola, benvingut a la pila" << endl;
     while(option != 6){
-        cout << "Que vols fer?" << endl;
-        // Utilitzant el do...while... podem fer que mostri almenys una vegada el menu
-        do{
+        option = -1;
+        // Utilitzant while podem fer que mostri el menu
+         while(option < 0 || option > 6){
+            cout << "Que vols fer?" << endl;
             for (auto itr = options.begin(); itr != options.end(); ++itr) {
                 cout << *itr << endl;
             }
@@ -142,8 +143,7 @@ void casProvaMenu(){
                 cin.ignore(1000, '\n');
                 option = -1;
             }
-        // Fem que demani sempre que l'opcio no sigui els que hi hagin
-        } while(option < 0 || option > 6);
+        }// Fem que demani sempre que l'opcio no sigui els que hi hagin
         
         // Creem un switch amb l'opció de l'usuari
         switch(option){
@@ -155,6 +155,8 @@ void casProvaMenu(){
                 cin >> num;
                 cout << endl;
                 if(cin.fail()){
+                    cin.clear();
+                    cin.ignore(1000, '\n');
                     throw invalid_argument("Ha de ser un enter");
                 }
                 pila.anadirElemento(num);
