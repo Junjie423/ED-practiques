@@ -7,13 +7,18 @@ public:
     Position(const Key key);
     Position(const Position<Key, Value>& orig);
     virtual ~Position();
+    
     /* Modificadors */
-    // Declareu-hi aquí els modificadors (setters) dels atributs que manquen
+    void setParent(Position<Key, Value>* pos);
+    void setLeft(Position<Key, Value>* pos);
+    void setRight(Position<Key, Value>* pos);
     
     /* Consultors */
     const Key& getKey() const;
     const vector<Value>& getValues() const;
-    // Declareu-hi aquí els consultors (getters) dels atributs que manquen
+    Position<Key, Value> parent() const;
+    Position<Key, Value> left() const;
+    Position<Key, Value> right() const;
 
     /* Operacions */
     bool isRoot() const;
@@ -26,6 +31,8 @@ public:
 private:
     Key key;
     vector<Value> values;
-    // Afegiu-hi aquí els atributs que manquen    
+    Position<Key, Value> pare;
+    Position<Key, Value> esq;
+    Position<Key, Value> dret;
 };
 #endif //POSITION_H
