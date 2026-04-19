@@ -1,4 +1,5 @@
 #include "Position.h"
+#include <vector> 
 using namespace std;
 
 template <class Key, class Value> Position<Key, Value>::Position(const Key clau){
@@ -24,14 +25,8 @@ template <class Key, class Value> Position<Key, Value>::~Position(){
         delete this->dret;
     }
 }
-/*
-               51               
-        /              \        
-       18              71       
-    /      \        /      \    
-    5      43      61      97   
-          /       /  \          
-         26      57  70  */
+
+// Modificadors
 template <class Key, class Value> void Position<Key, Value>::setParent(Position<Key, Value>* pos){
     this-> pare = pos;
 }
@@ -44,6 +39,28 @@ template <class Key, class Value> void Position<Key, Value>::setRight(Position<K
     this->der = pos;
 }
 
+// Consultors
+template <class Key, class Value> const Key& Position<Key, Value>::getKey() const{
+    return this->key;
+}
+
+template <class Key, class Value> const vector<Value>& Position<Key, Value>::getValues() const{
+    return this->values;
+}
+
+template <class Key, class Value> Position<Key, Value> Position<Key, Value>::parent() const{
+    return this->pare;
+}
+
+template <class Key, class Value> Position<Key, Value> Position<Key, Value>::left() const{
+    return this->esq;
+}
+
+template <class Key, class Value> Position<Key, Value> Position<Key, Value>::right() const{
+    return this->dret;
+}
+
+// Operacions
 template <class Key, class Value> bool Position<Key, Value>::isRoot() const{
     return this->pare == nullptr;
 }
@@ -87,13 +104,3 @@ template <class Key, class Value> bool Position<Key, Value>::operator==(const Po
 }
 
 
-
-/* Mapa mental
-              02
-        /             \        
-      00              08  
-   /      \        /      \
-  --      --      05      45
- /  \    /  \    /  \    /  \ 
---  --  --  --  03  --  40  76 
-*/

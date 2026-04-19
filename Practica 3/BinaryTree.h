@@ -13,6 +13,7 @@ public:
     int height() const;
     virtual Position<Key, Value>* insert(const Key& key, const Value& value);
     bool contains(const Key& key) const;
+    Position<Key, Value>* search(const Key& key) const;
     const vector<Value>& getValues(const Key& key) const;
     void printPreOrder(const Position<Key, Value> *node = nullptr) const;
     void printPostOrder(const Position<Key, Value> *node = nullptr) const;
