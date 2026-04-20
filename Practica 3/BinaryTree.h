@@ -62,7 +62,7 @@ template <class Key, class Value> int BinaryTree<Key, Value>::size() const{
 }
 
 /* Mapa mental
-              02
+              02:[1.2]
         /             \        
       00              08  
    /      \        /      \
@@ -71,7 +71,7 @@ template <class Key, class Value> int BinaryTree<Key, Value>::size() const{
 --  --  --  --  03  --  40  76 
 */
 template <class Key, class Value> bool BinaryTree<Key, Value>::contains(const Key& key) const{
-    if(this->root == nullptr){
+    if(this->root == nullptr){   // També es pot fer if (this->isEmpty())
         throw out_of_range("No hi ha cap element a l'arbre");
     }
     Position<Key, Value>* actual = this->root;
@@ -91,7 +91,7 @@ template <class Key, class Value> bool BinaryTree<Key, Value>::contains(const Ke
 }
 
 template <class Key, class Value> Position<Key, Value>* BinaryTree<Key, Value>::search(const Key& key) const{
-
+    
 }
 
 template <class Key, class Value> const vector<Value>& BinaryTree<Key, Value>:: getValues(const Key& key) const{
@@ -101,26 +101,38 @@ template <class Key, class Value> const vector<Value>& BinaryTree<Key, Value>:: 
 // Modificador
 template <class Key, class Value> Position<Key, Value>* BinaryTree<Key, Value>::insert(const Key& key, const Value& value){
     Position<Key, Value>*itr = this->root;
-    bool dret = true;
-    while(itr != nullptr){
+    Position<Key, Value>*itrPare = nullptr;
+    bool trobat = false;
+    bool dret = false;
+    while(itr != nullptr && !trobat){
         if (itr->getKey() > key){
+            itrPare = itr;
             itr = itr->left();
             dret = false;
-        }
-        if (itr->getKey() < key){
+        } else if (itr->getKey() < key){
+            itrPare = itr;
             itr = itr->right();
             dret = true;
+        } else{
+            trobat = true;
         }
     }
-    Position<Key, Value> nou = new Position<Key, Value>(key);
-    nou->addValue(value);
-    nou->setParent(itr);
-    nou->setLeft(nullptr);
-    nou->setRight(nullptr);
-    if(dret){
-        itr->setRight(nou);
+    if(trobat){
+        itr->addValue(value)
     } else{
-        itr->setLeft(nou);
+        this->_size++;
+        Position<Key, Value>*nou = new Position<Key,Value>(key);
+        nou->addValue(value);
+        if(this->root == nullptr){
+            this->root = nou;
+            return this->root;
+        }
+        nou->setPare(itrPare);
+        if(dreta){
+            itrPare->setRight(nou);
+        } else{
+            itrPare->setLeft(nou);
+        }
     }
     return itr;
 }
