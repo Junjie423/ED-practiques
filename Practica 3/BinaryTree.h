@@ -29,7 +29,8 @@ protected:
     Position<Key, Value>* root;
 private:
     int _size;
-    /* Mètodes auxiliars definiu aquí els que necessiteu */    
+    /* Mètodes auxiliars definiu aquí els que necessiteu */
+    Position<Key, Value>* rec_search(Position<Key, Value>* act, Key& key);
 }; 
 
 // Constructors
@@ -61,14 +62,14 @@ template <class Key, class Value> int BinaryTree<Key, Value>::size() const{
     return this->_size;
 }
 
-/* Mapa mental
-              02:[1.2]
-        /             \        
-      00              08  
-   /      \        /      \
-  --      --      05      45
- /  \    /  \    /  \    /  \ 
---  --  --  --  03  --  40  76 
+/*
+      02
+/             \        
+00              08  
+             /      \
+            05      45
+           /       /  \ 
+          03      40  76 
 */
 template <class Key, class Value> bool BinaryTree<Key, Value>::contains(const Key& key) const{
     if(this->root == nullptr){   // També es pot fer if (this->isEmpty())
@@ -91,7 +92,11 @@ template <class Key, class Value> bool BinaryTree<Key, Value>::contains(const Ke
 }
 
 template <class Key, class Value> Position<Key, Value>* BinaryTree<Key, Value>::search(const Key& key) const{
-    
+    if(this->isEmpty()){
+        throw out_of_range("L'arbre està buit");
+    }
+    return rec_search(this->root, key);
+
 }
 
 template <class Key, class Value> const vector<Value>& BinaryTree<Key, Value>:: getValues(const Key& key) const{
@@ -148,6 +153,20 @@ template <class Key, class Value> void BinaryTree<Key, Value>::printPostOrder(co
 
 template <class Key, class Value> bool BinaryTree<Key, Value>::identicalTree(const BinaryTree<Key, Value>& other) const{
     
+}
+
+// Mètodes auxiliars
+template <class Key, class Value> Position<Key, Value>* BinaryTree<Key, Value>::rec_search(Position<Key, Value>* act, Key& key){
+    while (act != nullptr){
+        if (act->getKey() > key){
+            rec_search(act->left(), key);
+        } else if (act->getKey() < key){
+            rec_search(act->right(), key);
+        } else{
+            return act;
+        }
+    }
+    return act;
 }
     
 #endif // BINARYTREE_H
