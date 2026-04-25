@@ -38,9 +38,9 @@ public:
 private:
     Key key;
     vector<Value> values;
-    Position<Key, Value> pare;
-    Position<Key, Value> esq;
-    Position<Key, Value> dret;
+    Position<Key, Value>* pare;
+    Position<Key, Value>* esq;
+    Position<Key, Value>* dret;
 };
 
 
@@ -78,7 +78,7 @@ template <class Key, class Value> void Position<Key, Value>::setLeft(Position<Ke
 }
 
 template <class Key, class Value> void Position<Key, Value>::setRight(Position<Key, Value>* pos){
-    this->der = pos;
+    this->dret = pos;
 }
 
 // Consultors
@@ -108,14 +108,14 @@ template <class Key, class Value> bool Position<Key, Value>::isRoot() const{
 }
 
 template <class Key, class Value> bool Position<Key, Value>::isLeaf() const{
-    return this->esq == nullptr && this->der == nullptr;
+    return this->esq == nullptr && this->dret == nullptr;
 }
 
 template <class Key, class Value> int Position<Key, Value>::depth() const{
     if (this->isRoot()){
         return 0;
     }
-    return this->pare->depth()+1;
+    return (this->pare->depth())+1;
 }
 
 template <class Key, class Value> int Position<Key, Value>::height() const{
@@ -128,7 +128,7 @@ template <class Key, class Value> int Position<Key, Value>::height() const{
         num = this->esq->height()+1;
     }
     if (this->dret != nullptr){
-        num2 = this->dreta->height()+1;
+        num2 = this->dret->height()+1;
     }
     if (num > num2){
         return num;
