@@ -34,5 +34,9 @@ void mainExercici1(){
     cout << "Preorder = [";
     tree2.printPreOrder();
     cout << "]" << endl;
-
 } 
+
+int main(){
+    mainExercici1();
+    return 0;
+}

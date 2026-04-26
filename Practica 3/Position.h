@@ -23,9 +23,9 @@ public:
     /* Consultors */
     const Key& getKey() const;
     const vector<Value>& getValues() const;
-    Position<Key, Value> parent() const;
-    Position<Key, Value> left() const;
-    Position<Key, Value> right() const;
+    Position<Key, Value>* parent() const;
+    Position<Key, Value>* left() const;
+    Position<Key, Value>* right() const;
 
     /* Operacions */
     bool isRoot() const;
@@ -90,15 +90,15 @@ template <class Key, class Value> const vector<Value>& Position<Key, Value>::get
     return this->values;
 }
 
-template <class Key, class Value> Position<Key, Value> Position<Key, Value>::parent() const{
+template <class Key, class Value> Position<Key, Value>* Position<Key, Value>::parent() const{
     return this->pare;
 }
 
-template <class Key, class Value> Position<Key, Value> Position<Key, Value>::left() const{
+template <class Key, class Value> Position<Key, Value>* Position<Key, Value>::left() const{
     return this->esq;
 }
 
-template <class Key, class Value> Position<Key, Value> Position<Key, Value>::right() const{
+template <class Key, class Value> Position<Key, Value>* Position<Key, Value>::right() const{
     return this->dret;
 }
 

@@ -5,6 +5,7 @@
 #include "Position.h"
 #include <vector>
 #include <iostream>
+
 using namespace std;
 
 template <class Key, class Value>
@@ -30,9 +31,11 @@ protected:
 private:
     int _size;
     /* Mètodes auxiliars definiu aquí els que necessiteu */
+    void rec_BinaryTree(const Position<Key, Value>* orig, Position<Key, Value>* actual);
     Position<Key, Value>* rec_search(Position<Key, Value>* act, Key& key);
     void rec_preOrdre(Position<Key, Value>* act) const;
     void rec_postOrdre(Position<Key, Value>* act) const;
+    bool rec_identicalTree(Position<Key, Value>* node1, Position<Key, Value>* node2) const;
 }; 
 
 // Constructors
@@ -42,8 +45,10 @@ template <class Key, class Value> BinaryTree<Key, Value>::BinaryTree(){
 }
 
 template <class Key, class Value> BinaryTree<Key, Value>::BinaryTree(const BinaryTree<Key, Value>& orig){
-    this->root = new Position<Key, Value> (orig.getRoot());
-    this->_size = orig.size();
+    this->_size = 0;
+    this->root = new Position<Key, Value> (orig.getRoot()->getKey());
+    this->_size++;
+    rec_BinaryTree(orig.getRoot(), this->root);
 }
 
 // Destructor
@@ -120,8 +125,8 @@ template <class Key, class Value> const vector<Value>& BinaryTree<Key, Value>:: 
 
 // Modificador
 template <class Key, class Value> Position<Key, Value>* BinaryTree<Key, Value>::insert(const Key& key, const Value& value){
-    Position<Key, Value>*itr = this->root;
-    Position<Key, Value>*itrPare = nullptr;
+    Position<Key, Value>* itr = this->root;
+    Position<Key, Value>* itrPare = nullptr;
     bool trobat = false;
     bool dret = false;
     while(itr != nullptr && !trobat){
@@ -147,7 +152,7 @@ template <class Key, class Value> Position<Key, Value>* BinaryTree<Key, Value>::
             this->root = nou;
             return this->root;
         }
-        nou->setPare(itrPare);
+        nou->setParent(itrPare);
         if(dret){
             itrPare->setRight(nou);
         } else{
@@ -169,15 +174,42 @@ template <class Key, class Value> void BinaryTree<Key, Value>::printPostOrder(co
     if (this->root == nullptr){
         throw out_of_range("L'arbre està buit");
     }
-    rec_preOrdre(this->root);
+    rec_postOrdre(this->root);
 
 }
 
 template <class Key, class Value> bool BinaryTree<Key, Value>::identicalTree(const BinaryTree<Key, Value>& other) const{
-    return false;
-}
+    return rec_identicalTree(this->root, other.getRoot());
+}   
 
 // Mètodes auxiliars
+
+template <class Key, class Value> void BinaryTree<Key, Value>::rec_BinaryTree(const Position<Key, Value>* orig, Position<Key, Value>* actual){
+    for (Value v : orig->getValues()){
+            actual->addValue(v);
+    }
+
+    Position<Key, Value>* left = orig->left();
+    Position<Key, Value>* right = orig->right();
+
+    if (right != nullptr){
+        Position<Key, Value>* dret = new Position<Key, Value>(right->getKey());
+        actual->setRight(dret);
+        dret->setParent(actual);
+        this->_size++;
+        rec_BinaryTree(right,dret);
+    }
+
+    if (left != nullptr){
+        Position<Key, Value>* esq = new Position<Key, Value>(left->getKey());
+        actual->setLeft(esq);
+        esq->setParent(actual);
+        this->_size++;
+        rec_BinaryTree(left,esq);
+    }
+}
+
+
 template <class Key, class Value> Position<Key, Value>* BinaryTree<Key, Value>::rec_search(Position<Key, Value>* act, Key& key){
     while (act != nullptr){
         if (act->getKey() > key){
@@ -195,7 +227,7 @@ template <class Key, class Value> void BinaryTree<Key, Value>::rec_preOrdre(Posi
     if(act == nullptr){
         return;
     }
-    cout << act->getKey() << endl;
+    cout << act->getKey() << " ";
     rec_preOrdre(act->left());
     rec_preOrdre(act->right());
 }
@@ -204,8 +236,44 @@ template <class Key, class Value> void BinaryTree<Key, Value>::rec_postOrdre(Pos
     if(act == nullptr){
         return;
     }
-    rec_preOrdre(act->left());
-    rec_preOrdre(act->right());
-    cout << act->getKey() << endl;
+    rec_postOrdre(act->left());
+    rec_postOrdre(act->right());
+    cout << act->getKey() << " ";
 }
+template <class Key, class Value> bool BinaryTree<Key, Value>::rec_identicalTree(Position<Key, Value>* node1, Position<Key, Value>* node2) const{
+    if (node1 == nullptr && node2 == nullptr){
+        return true;
+    }
+    if (node1 == nullptr || node2 == nullptr){
+        return false;
+    }
+    if (node1->getKey() != node2->getKey() || node1->getValues() != node2->getValues()){
+        return false;
+    }
+    return rec_identicalTree(node1->left(), node2->left()) && rec_identicalTree(node1->right(), node2->right());
+}
+
+/*
+Preorder = [2 0 8 5 3 45 40 76 ]
+Postorder = [2 0 8 5 3 45 40 76 ]
+
+
+Postorder = [0 3 5 40 76 45 8 2 ]
+ identics 1
+Preorder = [2 0 8 5 3 45 40 76 ]    
+ identics 0
+Preorder = [2 0 8 5 3 4 45 40 76 ]
+  --- Nodes : 8 ---
+               2                
+        /              \        
+       0               8        
+                    /      \    
+                   5       45   
+                  /       /  \  
+                 3       40  76 */
+
+
+
+
+
 #endif // BINARYTREE_H
