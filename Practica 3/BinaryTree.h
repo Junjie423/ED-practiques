@@ -14,10 +14,10 @@ public:
     BinaryTree();
     BinaryTree(const BinaryTree<Key, Value>& orig);
     virtual ~BinaryTree();
-    bool isEmpty() const;
-    Position<Key, Value>* getRoot() const;
-    int size() const;
-    int height() const;
+    bool isEmpty() const; // O(1)
+    Position<Key, Value>* getRoot() const; // O(1)
+    int size() const; // O(1)
+    int height() const;  //
     virtual Position<Key, Value>* insert(const Key& key, const Value& value);
     bool contains(const Key& key) const;
     Position<Key, Value>* search(const Key& key) const;
@@ -32,10 +32,14 @@ private:
     int _size;
     /* Mètodes auxiliars definiu aquí els que necessiteu */
     void rec_BinaryTree(const Position<Key, Value>* orig, Position<Key, Value>* actual);
+    int rec_height(const Position<Key, Value>* act, int& num);
     Position<Key, Value>* rec_search(Position<Key, Value>* act, Key& key);
     void rec_preOrdre(Position<Key, Value>* act) const;
     void rec_postOrdre(Position<Key, Value>* act) const;
     bool rec_identicalTree(Position<Key, Value>* node1, Position<Key, Value>* node2) const;
+
+    // Mètodes auxiliars
+    
 }; 
 
 // Constructors
@@ -69,6 +73,11 @@ template <class Key, class Value> int BinaryTree<Key, Value>::size() const{
     return this->_size;
 }
 
+/*template <class Key, class Value> int BinaryTree<Key, Value>::height() const{
+    
+}
+*/
+
 /*
       02
     /      \        
@@ -77,16 +86,6 @@ template <class Key, class Value> int BinaryTree<Key, Value>::size() const{
        05      45
        /       /  \ 
       03      40  76  
-
-
-
-go(Node n){
-    n.print();   → Preordre
-    go(Left);    ← recursivitat
-    n.print();   → Inordre
-    go(Right);   ← recursivitat
-    n.print();   → Postordre
-    }
 */
 template <class Key, class Value> bool BinaryTree<Key, Value>::contains(const Key& key) const{
     if(this->root == nullptr){   // També es pot fer if (this->isEmpty())
@@ -183,7 +182,6 @@ template <class Key, class Value> bool BinaryTree<Key, Value>::identicalTree(con
 }   
 
 // Mètodes auxiliars
-
 template <class Key, class Value> void BinaryTree<Key, Value>::rec_BinaryTree(const Position<Key, Value>* orig, Position<Key, Value>* actual){
     for (Value v : orig->getValues()){
             actual->addValue(v);
