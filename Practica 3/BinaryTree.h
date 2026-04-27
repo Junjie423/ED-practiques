@@ -5,6 +5,7 @@
 #include "Position.h"
 #include <vector>
 #include <iostream>
+#include <stdexcept>
 
 using namespace std;
 

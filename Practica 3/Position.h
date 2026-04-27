@@ -43,7 +43,7 @@ private:
     Position<Key, Value>* dret;
 };
 
-
+// Constructors
 template <class Key, class Value> Position<Key, Value>::Position(const Key clau){
     this->key = clau;
     this->pare = nullptr;
@@ -59,6 +59,7 @@ template <class Key, class Value> Position<Key, Value>::Position(const Position<
     this->dret = nullptr;
 }
 
+// Destructor
 template <class Key, class Value> Position<Key, Value>::~Position(){
     if(this->esq != nullptr){
         delete this->esq;
