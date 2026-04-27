@@ -253,27 +253,4 @@ template <class Key, class Value> bool BinaryTree<Key, Value>::rec_identicalTree
     return rec_identicalTree(node1->left(), node2->left()) && rec_identicalTree(node1->right(), node2->right());
 }
 
-/*
-Preorder = [2 0 8 5 3 45 40 76 ]
-Postorder = [2 0 8 5 3 45 40 76 ]
-
-
-Postorder = [0 3 5 40 76 45 8 2 ]
- identics 1
-Preorder = [2 0 8 5 3 45 40 76 ]    
- identics 0
-Preorder = [2 0 8 5 3 4 45 40 76 ]
-  --- Nodes : 8 ---
-               2                
-        /              \        
-       0               8        
-                    /      \    
-                   5       45   
-                  /       /  \  
-                 3       40  76 */
-
-
-
-
-
 #endif // BINARYTREE_H
