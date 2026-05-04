@@ -18,14 +18,15 @@ public:
     bool isEmpty() const; // O(1)
     Position<Key, Value>* getRoot() const; // O(1)
     int size() const; // O(1)
-    int height() const;  //
-    virtual Position<Key, Value>* insert(const Key& key, const Value& value);
-    bool contains(const Key& key) const;
-    Position<Key, Value>* search(const Key& key) const;
-    const vector<Value>& getValues(const Key& key) const;
-    void printPreOrder(const Position<Key, Value> *node = nullptr) const;
-    void printPostOrder(const Position<Key, Value> *node = nullptr) const;
-    bool identicalTree(const BinaryTree<Key, Value>& other) const;
+    int height() const;  // O(n)
+    virtual Position<Key, Value>* insert(const Key& key, const Value& value); // O(log n) millor cas, O(n) pitjor cas
+    bool contains(const Key& key) const; // O(log n) millor cas, O(n) pitjor cas
+    Position<Key, Value>* search(const Key& key) const; // O(log n) millor cas, O(n) pitjor cas
+    const vector<Value>& getValues(const Key& key) const; // O(log n) millor cas, O(n) pitjor cas
+    void printPreOrder(const Position<Key, Value> *node = nullptr) const; // O(n)
+    void printPostOrder(const Position<Key, Value> *node = nullptr) const; // O(n)
+    bool identicalTree(const BinaryTree<Key, Value>& other) const; // O(n)
+    vector<Key> getLeaves() const; // O(n)
     
 protected:
     Position<Key, Value>* root;
@@ -33,11 +34,12 @@ private:
     int _size;
     /* Mètodes auxiliars definiu aquí els que necessiteu */
     void rec_BinaryTree(const Position<Key, Value>* orig, Position<Key, Value>* actual);
-    int rec_height(const Position<Key, Value>* act, int& num);
+    int rec_height(const Position<Key, Value>* act);
     Position<Key, Value>* rec_search(Position<Key, Value>* act, Key& key);
     void rec_preOrdre(Position<Key, Value>* act) const;
     void rec_postOrdre(Position<Key, Value>* act) const;
     bool rec_identicalTree(Position<Key, Value>* node1, Position<Key, Value>* node2) const;
+    int rec_getLeaves(Position<Key, Value>* node);
 
     // Mètodes auxiliars
     
@@ -74,11 +76,12 @@ template <class Key, class Value> int BinaryTree<Key, Value>::size() const{
     return this->_size;
 }
 
-/*template <class Key, class Value> int BinaryTree<Key, Value>::height() const{
-    
+template <class Key, class Value> int BinaryTree<Key, Value>::height() const{
+    if (this->isEmpty()){
+        throw out_of_range("L'arbre està buit");
+    }
+    return rec_height(this->root);
 }
-*/
-
 /*
       02
     /      \        
@@ -180,7 +183,11 @@ template <class Key, class Value> void BinaryTree<Key, Value>::printPostOrder(co
 
 template <class Key, class Value> bool BinaryTree<Key, Value>::identicalTree(const BinaryTree<Key, Value>& other) const{
     return rec_identicalTree(this->root, other.getRoot());
-}   
+}
+
+template <class Key, class Value> vector<Key> BinaryTree<Key, Value>::getLeaves() const{
+
+}
 
 // Mètodes auxiliars
 template <class Key, class Value> void BinaryTree<Key, Value>::rec_BinaryTree(const Position<Key, Value>* orig, Position<Key, Value>* actual){
@@ -208,6 +215,12 @@ template <class Key, class Value> void BinaryTree<Key, Value>::rec_BinaryTree(co
     }
 }
 
+template <class Key, class Value> int BinaryTree<Key, Value>::rec_height(const Position<Key, Value>* act){
+    if (act->left() == nullptr && act->right() == nullptr){
+        return 1
+    }
+    return (max(rec_height(act->left()), rec_height(act->right()) + 1));
+}
 
 template <class Key, class Value> Position<Key, Value>* BinaryTree<Key, Value>::rec_search(Position<Key, Value>* act, Key& key){
     while (act != nullptr){
@@ -239,6 +252,7 @@ template <class Key, class Value> void BinaryTree<Key, Value>::rec_postOrdre(Pos
     rec_postOrdre(act->right());
     cout << act->getKey() << " ";
 }
+
 template <class Key, class Value> bool BinaryTree<Key, Value>::rec_identicalTree(Position<Key, Value>* node1, Position<Key, Value>* node2) const{
     if (node1 == nullptr && node2 == nullptr){
         return true;
@@ -250,6 +264,10 @@ template <class Key, class Value> bool BinaryTree<Key, Value>::rec_identicalTree
         return false;
     }
     return rec_identicalTree(node1->left(), node2->left()) && rec_identicalTree(node1->right(), node2->right());
+}
+
+template <class Key, class Value> int BinaryTree<Key, Value>::rec_getLeaves(Position<Key, Value>* node){
+
 }
 
 #endif // BINARYTREE_H
