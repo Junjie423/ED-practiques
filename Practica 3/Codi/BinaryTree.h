@@ -39,7 +39,7 @@ private:
     void rec_preOrdre(Position<Key, Value>* act) const;
     void rec_postOrdre(Position<Key, Value>* act) const;
     bool rec_identicalTree(Position<Key, Value>* node1, Position<Key, Value>* node2) const;
-    int rec_getLeaves(Position<Key, Value>* node);
+    void rec_getLeaves(Position<Key, Value>* node, vector<Key>& vect);
 
     // Mètodes auxiliars
     
@@ -186,7 +186,9 @@ template <class Key, class Value> bool BinaryTree<Key, Value>::identicalTree(con
 }
 
 template <class Key, class Value> vector<Key> BinaryTree<Key, Value>::getLeaves() const{
-
+    vector<Key> vect;
+    rec_getLeaves(this->root, vect);
+    return vect;
 }
 
 // Mètodes auxiliars
@@ -217,7 +219,7 @@ template <class Key, class Value> void BinaryTree<Key, Value>::rec_BinaryTree(co
 
 template <class Key, class Value> int BinaryTree<Key, Value>::rec_height(const Position<Key, Value>* act){
     if (act->left() == nullptr && act->right() == nullptr){
-        return 1
+        return 1;vector<int> result = tree2.getLeaves();
     }
     return (max(rec_height(act->left()), rec_height(act->right()) + 1));
 }
@@ -266,8 +268,13 @@ template <class Key, class Value> bool BinaryTree<Key, Value>::rec_identicalTree
     return rec_identicalTree(node1->left(), node2->left()) && rec_identicalTree(node1->right(), node2->right());
 }
 
-template <class Key, class Value> int BinaryTree<Key, Value>::rec_getLeaves(Position<Key, Value>* node){
-
+template <class Key, class Value> void BinaryTree<Key, Value>::rec_getLeaves(Position<Key, Value>* node, vector<Key>& vect){
+    if (node->isLeaf){
+        vect.push_back(node->getKey());
+    } else{
+        rec_getLeaves(node->left(), vect);
+        rec_getLeaves(node->right(), vect);
+    }
 }
 
 #endif // BINARYTREE_H

@@ -34,6 +34,14 @@ void mainExercici1(){
     cout << "Preorder = [";
     tree2.printPreOrder();
     cout << "]" << endl;
+
+    vector<int> result = tree2.getLeaves();
+    cout << "fulles arbres = " ;
+
+    for (vector<int>::iterator it = result.begin(); it != result.end(); ++it) {
+        cout << *it << " ";
+    }
+    cout << endl;
 } 
 
 int main(){
