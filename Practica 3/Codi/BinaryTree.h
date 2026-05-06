@@ -60,7 +60,9 @@ template <class Key, class Value> BinaryTree<Key, Value>::BinaryTree(const Binar
 
 // Destructor
 template <class Key, class Value> BinaryTree<Key, Value>::~BinaryTree(){
-    // Cal omplir
+    if(this->root != nullptr){
+    delete this->root;
+    }
 }
 
 // Consultors
