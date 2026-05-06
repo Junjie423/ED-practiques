@@ -5,19 +5,19 @@ using namespace std;
 template<class Element> 
 class Tuple {
 public:
-    Tuple();
+    Tuple(); // O(1)
     
     // consultors
-    const Element& getFila() const;
-    const Element& getColumna() const;
+    const Element& getFila() const; // O(1)
+    const Element& getColumna() const; // O(1)
 
     // Modificadors
-    void setFila(const Element& fila);
-    void setColumna(const Element& col);
+    void setFila(const Element& fila); // O(1)
+    void setColumna(const Element& col); // O(1)
 
     // Operacions
-    bool operator==(const Tuple<Element>& other) const;
-    bool operator<(const Tuple<Element>& other) const;
+    bool operator==(const Tuple<Element>& other) const; // O(1)
+    bool operator<(const Tuple<Element>& other) const; // O(1)
 
 
 private:

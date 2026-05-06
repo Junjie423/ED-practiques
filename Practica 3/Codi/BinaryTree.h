@@ -12,8 +12,8 @@ using namespace std;
 template <class Key, class Value>
 class BinaryTree {
 public:
-    BinaryTree();
-    BinaryTree(const BinaryTree<Key, Value>& orig);
+    BinaryTree(); // O(1)
+    BinaryTree(const BinaryTree<Key, Value>& orig); // O(n)
     virtual ~BinaryTree();
     bool isEmpty() const; // O(1)
     Position<Key, Value>* getRoot() const; // O(1)
@@ -219,7 +219,7 @@ template <class Key, class Value> void BinaryTree<Key, Value>::rec_BinaryTree(co
 
 template <class Key, class Value> int BinaryTree<Key, Value>::rec_height(const Position<Key, Value>* act){
     if (act->left() == nullptr && act->right() == nullptr){
-        return 1;vector<int> result = tree2.getLeaves();
+        return 1;
     }
     return (max(rec_height(act->left()), rec_height(act->right()) + 1));
 }
