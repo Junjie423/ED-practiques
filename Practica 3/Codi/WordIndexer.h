@@ -72,9 +72,11 @@ bool WordIndexer::contains(const string &word) const{
 
 void WordIndexer::printOccurrences(const string &word) const{
     vector<Tuple<int>> tuples = this->tree->getValues(word);
+    cout << word << " [";
     for (int i = 0; i < tuples.size(); i++){
         cout << "(" << tuples[i].getFila() << ", " << tuples[i].getColumna() << ") ";
     }
+    cout << "]" << endl;
 }
 
 void WordIndexer::printDictionary(Position<string, Tuple<int> > *node) const{
