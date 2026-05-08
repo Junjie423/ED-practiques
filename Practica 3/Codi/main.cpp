@@ -44,6 +44,10 @@ void mainExercici1(){
     cout << endl;
 } 
 
+void mainExercici2(){
+    
+}
+
 int main(){
     mainExercici1();
     return 0;

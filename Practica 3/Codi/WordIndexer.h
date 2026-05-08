@@ -80,7 +80,22 @@ void WordIndexer::printOccurrences(const string &word) const{
 }
 
 void WordIndexer::printDictionary(Position<string, Tuple<int> > *node) const{
-
+    if(node == nullptr){
+        node = this->tree->getRoot();
+    }
+    if(node->left() != nullptr){
+        printDictionary(node->left());
+    }
+    vector<Tuple<int>> tuples = node->getValues();
+    cout << node->getKey() << " [";
+    for (int i = 0; i < tuples.size(); i++){
+        cout << "(" << tuples[i].getFila() << ", " << tuples[i].getColumna() << ") ";
+    }
+    cout << "]" << endl;
+    if(node->right() != nullptr){
+        printDictionary(node->right());
+    }
+    
 }
 
 void WordIndexer::addText(string path){
