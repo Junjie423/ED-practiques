@@ -1,6 +1,7 @@
 #include "Position.h"
 #include "BinaryTree.h"
 #include <iostream>
+#include <chrono>
 using namespace std;
 
 void mainExercici1(){
@@ -45,10 +46,14 @@ void mainExercici1(){
 } 
 
 void mainExercici2(){
-    
+    chrono::steady_clock::time_point begin = chrono::steady_clock::now();
+    // Aquí el vostre codi del que en voleu mesurar el temps d'execució
+    chrono::steady_clock::time_point end = chrono::steady_clock::now();
+    cout << "Temps transcorregut: " << chrono::duration_cast<chrono::seconds>(end -begin).count() << " s." << endl;
 }
 
 int main(){
-    mainExercici1();
+    //mainExercici1();
+    mainExercici2();
     return 0;
 }
