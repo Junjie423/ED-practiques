@@ -1,7 +1,6 @@
 #ifndef BINARYTREE_H
 #define BINARYTREE_H
 
-#include "BinaryTree.h"
 #include "Position.h"
 #include <vector>
 #include <iostream>

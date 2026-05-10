@@ -2,6 +2,7 @@
 #define WORDINDEXER_H
 
 #include "BinaryTree.h"
+#include "Position.h"
 #include "Tuple.h"
 #include <stdexcept>
 #include <iostream>

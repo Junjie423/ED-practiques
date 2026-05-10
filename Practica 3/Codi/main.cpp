@@ -1,7 +1,10 @@
 #include "Position.h"
 #include "BinaryTree.h"
+#include "Tuple.h"
+#include "WordIndexer.h"
 #include <iostream>
 #include <chrono>
+#include <stdexcept>
 using namespace std;
 
 void mainExercici1(){
@@ -45,11 +48,82 @@ void mainExercici1(){
     cout << endl;
 } 
 
+void opcio1(){
+    string entrada = "res";
+    while (entrada != "P" && entrada!= "G" && entrada != "p" && entrada != "g"){
+        cout << "Quin fitxer vols (P/G)?" ;
+        cin >> entrada;
+        if (entrada != "P" && entrada!= "G" && entrada != "p" && entrada != "g"){
+            cout << "Ha de ser P o G" << endl;
+        }
+    }
+}
+
 void mainExercici2(){
     chrono::steady_clock::time_point begin = chrono::steady_clock::now();
     // Aquí el vostre codi del que en voleu mesurar el temps d'execució
     chrono::steady_clock::time_point end = chrono::steady_clock::now();
     cout << "Temps transcorregut: " << chrono::duration_cast<chrono::seconds>(end -begin).count() << " s." << endl;
+
+    string arr_options[] = {"1. Llegir fitxer", "2. Mostrar l'arbre", 
+                            "3. Llegir fitxer dictionary.txt", "4. Generar índex de paraules", 
+                            "5. Profunditat de l'arbre", "6. Sortir" };
+    vector<string> options (arr_options, arr_options+6);
+    // Creem una variable per guardar l'opció
+    int option = -1;
+
+    // creem el bucle principal
+    cout << "Benvingut al WordIndexer" << endl;
+    while(option != 6){
+        option = -1;
+        // Utilitzant while podem fer que mostri el menu
+         while(option < 0 || option > 6){
+            cout << "Que vols fer?" << endl;
+            for (auto itr = options.begin(); itr != options.end(); ++itr) {
+                cout << *itr << endl;
+            }
+            //Guardem l'opció de l'usuari
+            cin >> option;
+            // Comprovem que l'usuari hagi introduït un numero, si no, llançem excepció i assignem -1 a option
+            if (cin.fail()){
+                cin.clear();
+                cin.ignore(1000, '\n');
+                option = -1;
+            }
+        }// Fem que demani sempre que l'opcio no sigui els que hi hagin
+        
+        // Creem un switch amb l'opció de l'usuari
+        switch(option){
+        // Cas llegir un fitxer
+        case 1:
+            try{
+                opcio1();
+            }catch (exception &e){
+                cerr << "Error: " << e.what() << endl;
+            }
+            break;
+        // Cas mostrar l'arbre creixent
+        case 2:
+            
+            break;
+        // Cas llegir fitxer dictionary.txt
+        case 3:
+            
+            break;
+        // Cas generar índex de paraules
+        case 4:
+            
+            break;
+         // Cas calcular profunditat de l'arbre
+        case 5:
+            
+            break;
+        // Cas sortir
+        case 6: 
+            cout << "Sortint del WordIndexer..." << endl;
+            break;
+        }
+    }
 }
 
 int main(){
