@@ -47,7 +47,7 @@ template <class Key, class Value> Position<Key, Value>* BalancedTree<Key, Value>
 }
 
 template <class Key, class Value> void BalancedTree<Key, Value>::rotacio(){
-
+    
 }
 
 template <class Key, class Value> void BalancedTree<Key, Value>::dreta_simple(){

@@ -215,7 +215,7 @@ void mainExercici2(){
 }
 
 int main(){
-    //mainExercici1();
-    mainExercici2();
+    mainExercici1();
+    //mainExercici2();
     return 0;
 }

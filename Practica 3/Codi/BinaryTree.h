@@ -33,12 +33,12 @@ private:
     int _size;
     /* Mètodes auxiliars definiu aquí els que necessiteu */
     void rec_BinaryTree(const Position<Key, Value>* orig, Position<Key, Value>* actual);
-    int rec_height(const Position<Key, Value>* act);
-    Position<Key, Value>* rec_search(Position<Key, Value>* act, Key& key);
+    int rec_height(const Position<Key, Value>* act) const;
+    Position<Key, Value>* rec_search(Position<Key, Value>* act, Key& key) const;
     void rec_preOrdre(Position<Key, Value>* act) const;
     void rec_postOrdre(Position<Key, Value>* act) const;
     bool rec_identicalTree(Position<Key, Value>* node1, Position<Key, Value>* node2) const;
-    void rec_getLeaves(Position<Key, Value>* node, vector<Key>& vect);
+    void rec_getLeaves(Position<Key, Value>* node, vector<Key>& vect) const;
     
 }; 
 
@@ -216,14 +216,14 @@ template <class Key, class Value> void BinaryTree<Key, Value>::rec_BinaryTree(co
     }
 }
 
-template <class Key, class Value> int BinaryTree<Key, Value>::rec_height(const Position<Key, Value>* act){
+template <class Key, class Value> int BinaryTree<Key, Value>::rec_height(const Position<Key, Value>* act) const{
     if (act->left() == nullptr && act->right() == nullptr){
         return 1;
     }
     return (max(rec_height(act->left()), rec_height(act->right()) + 1));
 }
 
-template <class Key, class Value> Position<Key, Value>* BinaryTree<Key, Value>::rec_search(Position<Key, Value>* act, Key& key){
+template <class Key, class Value> Position<Key, Value>* BinaryTree<Key, Value>::rec_search(Position<Key, Value>* act, Key& key) const{
     while (act != nullptr){
         if (act->getKey() > key){
             rec_search(act->left(), key);
@@ -267,8 +267,8 @@ template <class Key, class Value> bool BinaryTree<Key, Value>::rec_identicalTree
     return rec_identicalTree(node1->left(), node2->left()) && rec_identicalTree(node1->right(), node2->right());
 }
 
-template <class Key, class Value> void BinaryTree<Key, Value>::rec_getLeaves(Position<Key, Value>* node, vector<Key>& vect){
-    if (node->isLeaf){
+template <class Key, class Value> void BinaryTree<Key, Value>::rec_getLeaves(Position<Key, Value>* node, vector<Key>& vect) const{
+    if (node->isLeaf()){
         vect.push_back(node->getKey());
     } else{
         rec_getLeaves(node->left(), vect);
