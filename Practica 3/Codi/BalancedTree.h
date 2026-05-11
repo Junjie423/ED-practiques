@@ -27,6 +27,7 @@ private:
     void esq_simple();
 };
 
+
 // Constructors
 template <class Key, class Value> BalancedTree<Key, Value>::BalancedTree(){
 
@@ -45,6 +46,36 @@ template <class Key, class Value> BalancedTree<Key, Value>::~BalancedTree(){
 template <class Key, class Value> Position<Key, Value>* BalancedTree<Key, Value>::insert(const Key& key, const Value& value){
 
 }
+//h.dret - h.esquerra 
+    /*  Esquerra
+        a                   
+         \                  b     
+          b     --->      /  \
+         / \             a    c
+            c             \
+    */
+    /*  Dreta
+            c      
+           /                b     
+          b     --->      /  \
+         / \             a    c
+        a                    /
+    */
+    /*  Dreta-Esquerra
+        a              a 
+         \              \                   b     
+          c     --->    b       --->      /  \
+         /                \               a    c
+        b                 c                                       
+                          
+    */
+    /*  Esquerra-Dreta
+         c               c  
+       /                /                  b     
+      a        --->    b       --->      /  \
+       \              /                 a    c
+        b            a                 
+    */
 
 template <class Key, class Value> void BalancedTree<Key, Value>::rotacio(){
     
