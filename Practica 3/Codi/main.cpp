@@ -53,10 +53,38 @@ void opcio1(){
     while (entrada != "P" && entrada!= "G" && entrada != "p" && entrada != "g"){
         cout << "Quin fitxer vols (P/G)?" ;
         cin >> entrada;
-        if (entrada != "P" && entrada!= "G" && entrada != "p" && entrada != "g"){
+        
+        WordIndexer wordIn;
+        if(entrada == "P" || entrada == "p"){
+            chrono::steady_clock::time_point begin = chrono::steady_clock::now();
+            wordIn = *new WordIndexer("shortText.txt");
+            chrono::steady_clock::time_point end = chrono::steady_clock::now();
+            cout << "Temps transcorregut: " << chrono::duration_cast<chrono::seconds>(end -begin).count() << " s." << endl;
+        } else if (entrada == "G" || entrada == "g"){
+            chrono::steady_clock::time_point begin = chrono::steady_clock::now();
+            wordIn = *new WordIndexer("longText.txt");
+            chrono::steady_clock::time_point end = chrono::steady_clock::now();
+            cout << "Temps transcorregut: " << chrono::duration_cast<chrono::seconds>(end -begin).count() << " s." << endl;
+        } else{
             cout << "Ha de ser P o G" << endl;
         }
     }
+}
+
+void opcio2(){
+
+}
+
+void opcio3(){
+    
+}
+
+void opcio4(){
+    
+}
+
+void opcio5(){
+    
 }
 
 void mainExercici2(){
@@ -104,19 +132,35 @@ void mainExercici2(){
             break;
         // Cas mostrar l'arbre creixent
         case 2:
-            
+            try{
+                opcio2();
+            } catch (exception &e){
+                cerr << "Error: " << e.what() << endl;
+            }
             break;
         // Cas llegir fitxer dictionary.txt
         case 3:
-            
+            try{
+                opcio3();
+            } catch (exception &e){
+                cerr << "Error: " << e.what() << endl;
+            }
             break;
         // Cas generar índex de paraules
         case 4:
-            
+            try{
+                opcio4();
+            } catch (exception &e){
+                cerr << "Error: " << e.what() << endl;
+            }
             break;
          // Cas calcular profunditat de l'arbre
         case 5:
-            
+            try{
+                opcio5();
+            } catch (exception &e){
+                cerr << "Error: " << e.what() << endl;
+            }
             break;
         // Cas sortir
         case 6: 
