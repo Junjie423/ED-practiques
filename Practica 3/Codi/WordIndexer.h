@@ -33,6 +33,7 @@ protected:
 private:
     void insertWord(const string &word, const int &line, const int &position);
     /* Metodes auxiliars, definiu-los aquí sota */
+    void print();
 
 };
 #endif // WORDINDEXER_H

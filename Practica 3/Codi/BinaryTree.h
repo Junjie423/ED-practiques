@@ -39,8 +39,6 @@ private:
     void rec_postOrdre(Position<Key, Value>* act) const;
     bool rec_identicalTree(Position<Key, Value>* node1, Position<Key, Value>* node2) const;
     void rec_getLeaves(Position<Key, Value>* node, vector<Key>& vect);
-
-    // Mètodes auxiliars
     
 }; 
 
