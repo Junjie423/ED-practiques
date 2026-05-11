@@ -11,29 +11,29 @@ using namespace std;
 template <class Key, class Value>
 class Position {
 public:
-    Position(const Key key);
-    Position(const Position<Key, Value>& orig);
-    virtual ~Position();
+    Position(const Key key); // O(1)
+    Position(const Position<Key, Value>& orig); // O(1)
+    virtual ~Position(); // O(1)
     
     /* Modificadors */
-    void setParent(Position<Key, Value>* pos);
-    void setLeft(Position<Key, Value>* pos);
-    void setRight(Position<Key, Value>* pos);
+    void setParent(Position<Key, Value>* pos); // O(1)
+    void setLeft(Position<Key, Value>* pos); // O(1)
+    void setRight(Position<Key, Value>* pos); // O(1)
     
     /* Consultors */
-    const Key& getKey() const;
-    const vector<Value>& getValues() const;
-    Position<Key, Value>* parent() const;
-    Position<Key, Value>* left() const;
-    Position<Key, Value>* right() const;
+    const Key& getKey() const; // O(1)
+    const vector<Value>& getValues() const; // O(1)
+    Position<Key, Value>* parent() const; // O(1)
+    Position<Key, Value>* left() const; // O(1)
+    Position<Key, Value>* right() const; // O(1)
 
     /* Operacions */
-    bool isRoot() const;
-    bool isLeaf() const;
-    int depth() const;
-    int height() const;
-    void addValue(const Value& value);
-    bool operator==(const Position<Key, Value>& other) const;
+    bool isRoot() const; // O(1)
+    bool isLeaf() const; // O(1)
+    int depth() const; // O(n) on n es la quantitat de antecedents
+    int height() const; // O(n) (recorre tot l'arbre de baix a dalt fins al node)
+    void addValue(const Value& value); // O(1)
+    bool operator==(const Position<Key, Value>& other) const; // O(1)
     
 private:
     Key key;
@@ -45,6 +45,7 @@ private:
 
 // Constructors
 template <class Key, class Value> Position<Key, Value>::Position(const Key clau){
+    // Assignem key a la clau introduida i tots els punters nullptr
     this->key = clau;
     this->pare = nullptr;
     this->esq = nullptr;
@@ -52,6 +53,7 @@ template <class Key, class Value> Position<Key, Value>::Position(const Key clau)
 }
 
 template <class Key, class Value> Position<Key, Value>::Position(const Position<Key, Value>& orig){
+    // Assignem els valors i la clau de l'original i els punters nullptr
     this->values = orig.getValues();
     this->key = orig.getKey();
     this->pare = nullptr;
@@ -61,6 +63,7 @@ template <class Key, class Value> Position<Key, Value>::Position(const Position<
 
 // Destructor
 template <class Key, class Value> Position<Key, Value>::~Position(){
+    // Eliminem els punters fills
     if(this->esq != nullptr){
         delete this->esq;
     }
@@ -105,24 +108,31 @@ template <class Key, class Value> Position<Key, Value>* Position<Key, Value>::ri
 
 // Operacions
 template <class Key, class Value> bool Position<Key, Value>::isRoot() const{
+    // Només l'arrel no té node pare
     return this->pare == nullptr;
 }
 
 template <class Key, class Value> bool Position<Key, Value>::isLeaf() const{
+    // Les fulles no tenen fill dret ni fill esquerre
     return this->esq == nullptr && this->dret == nullptr;
 }
 
 template <class Key, class Value> int Position<Key, Value>::depth() const{
+    // Si es arrel retorna 0
     if (this->isRoot()){
         return 0;
     }
+    // Si no es arrel, fa una recursivitat retornant el nombre del pare + 1 (arriba fins l'arrel i va tornant afegint 1 cada salt que s'ha fet)
     return (this->pare->depth())+1;
 }
 
 template <class Key, class Value> int Position<Key, Value>::height() const{
+    // En cas de ser fulla retorna 1
     if(this->isLeaf()){
         return 1;
     }
+    // En cas de no ser fulla, fa una crida recursiva retornant el height del fill dret i fill esquerre tots + 1
+    // I agafant el més gran dels fills, crida fins a arribar les fulles i va tornant.
     int num = 0;
     int num2 = 0;
        if (this->esq != nullptr){
@@ -139,10 +149,12 @@ template <class Key, class Value> int Position<Key, Value>::height() const{
 }
 
 template <class Key, class Value> void Position<Key, Value>::addValue(const Value& value){
-    (this->values).push_back(value);
+    // Afegeix el valor al darrere del vector values
+    this->values.push_back(value);
 }
 
 template <class Key, class Value> bool Position<Key, Value>::operator==(const Position<Key, Value>& other) const{
+    // L'operador == per els nodes compara si la clau és la mateixa
     return other.getKey() == this->key;
 }
 
