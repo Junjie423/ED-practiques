@@ -49,14 +49,11 @@ void mainExercici1(){
 } 
 
 void opcio1(WordIndexer* wordIn){
-    if (wordIn->size() == 0){
-        throw out_of_range("L'arbre està buit");
-    }
+    if(wordIn != nullptr) delete wordIn;
     string entrada = "start";
     while (entrada != "P" && entrada!= "G" && entrada != "p" && entrada != "g"){
         cout << "Quin fitxer vols (P/G)?" ;
         cin >> entrada;
-        
         WordIndexer wordIn;
         if(entrada == "P" || entrada == "p"){
             chrono::steady_clock::time_point begin = chrono::steady_clock::now();
@@ -102,9 +99,6 @@ void opcio3(WordIndexer* wordIn){
         stringstream ss(linia);
         string paraula;
         
-        while(ss >> paraula){
-            wordIn->printOccurrences(paraula);
-        }
     }
     chrono::steady_clock::time_point end = chrono::steady_clock::now();
     cout << "Temps transcorregut: " << chrono::duration_cast<chrono::seconds>(end -begin).count() << " s." << endl;
@@ -137,7 +131,7 @@ void mainExercici2(){
     cout << "Temps transcorregut: " << chrono::duration_cast<chrono::seconds>(end -begin).count() << " s." << endl;
 
     string arr_options[] = {"1. Llegir fitxer", "2. Mostrar l'arbre", 
-                            "3. Llegir fitxer dictionary.txt", "4. Generar índex de paraules", 
+                            "3. Cercar a dictionary.txt", "4. Generar índex de paraules", 
                             "5. Profunditat de l'arbre", "6. Sortir" };
     vector<string> options (arr_options, arr_options+6);
     // Creem una variable per guardar l'opció
@@ -215,7 +209,7 @@ void mainExercici2(){
 }
 
 int main(){
-    mainExercici1();
-    //mainExercici2();
+    //mainExercici1();
+    mainExercici2();
     return 0;
 }

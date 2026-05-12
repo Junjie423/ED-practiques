@@ -34,7 +34,7 @@ private:
     /* Mètodes auxiliars definiu aquí els que necessiteu */
     void rec_BinaryTree(const Position<Key, Value>* orig, Position<Key, Value>* actual); // O(n)
     int rec_height(const Position<Key, Value>* act) const; // O(n) on n es la quantitat de nodes de l'arbre (recorre tot l'arbre)
-    Position<Key, Value>* rec_search(Position<Key, Value>* act, Key& key) const; // O(log n) millor cas, O(n) pitjor cas
+    Position<Key, Value>* rec_search(Position<Key, Value>* act,const Key& key) const; // O(log n) millor cas, O(n) pitjor cas
     void rec_preOrdre(Position<Key, Value>* act) const; // O(n)
     void rec_postOrdre(Position<Key, Value>* act) const; // O(n)
     bool rec_identicalTree(Position<Key, Value>* node1, Position<Key, Value>* node2) const; // O(n)
@@ -276,7 +276,7 @@ template <class Key, class Value> int BinaryTree<Key, Value>::rec_height(const P
     return (max(rec_height(act->left()), rec_height(act->right()) + 1));
 }
 
-template <class Key, class Value> Position<Key, Value>* BinaryTree<Key, Value>::rec_search(Position<Key, Value>* act, Key& key) const{
+template <class Key, class Value> Position<Key, Value>* BinaryTree<Key, Value>::rec_search(Position<Key, Value>* act,const Key& key) const{
     // Mentre el node actual no sigui nullptr, mirem que coincideixin la clau del node amb la key
     while (act != nullptr){
         // En cas de que la clau del node sigui més gran que la key, mirem el fill esquerre
@@ -336,6 +336,8 @@ template <class Key, class Value> bool BinaryTree<Key, Value>::rec_identicalTree
 }
 
 template <class Key, class Value> void BinaryTree<Key, Value>::rec_getLeaves(Position<Key, Value>* node, vector<Key>& vect) const{
+    if(node == nullptr) return;
+    
     // Si el node és fulla afegim la seva clau al vector paràmetre
     if (node->isLeaf()){
         vect.push_back(node->getKey());

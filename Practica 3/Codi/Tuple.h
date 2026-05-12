@@ -51,11 +51,11 @@ template<class Element> void Tuple<Element>::setColumna(const Element& col){
 
 // Operacions
 template<class Element> bool Tuple<Element>::operator==(const Tuple<Element>& other) const{
-    return ((this->_fila == other->_fila) && (this->_col == other->_col));
+    return ((this->_fila == other._fila) && (this->_col == other._col));
 }
 
 template<class Element> bool Tuple<Element>::operator<(const Tuple<Element>& other) const{
-    return ((this->_fila < other->_fila) && (this->_col < other->_col));
+    return ((this->_fila < other._fila) && (this->_col < other._col));
 }
 
 #endif // TUPLE_H
