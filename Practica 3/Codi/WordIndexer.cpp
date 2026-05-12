@@ -101,3 +101,45 @@ void WordIndexer::insertWord(const string &word, const int &line, const int &pos
             tupla->setColumna(position);
             this->tree->insert(word, *tupla);
 }
+
+void WordIndexer::print40() const{
+    if(this->tree->isEmpty()){
+        throw out_of_range("L'arbre per printar està buit");
+    }
+    int cont = 0;
+    bool keep = true;
+    rec_print40(this->tree->getRoot(), cont, keep);
+}
+
+void WordIndexer::rec_print40(Position<string, Tuple<int>>* node, int &cont, bool& keep) const{
+    if(!keep) return;
+    if(node == nullptr) return;
+    
+    rec_print40(node->left(),cont,keep);
+
+    if  (keep && cont == 40){
+        string op = "start";
+        while (op != "s" && op != "n"){
+            cout << "Vols continuar? (s/n): ";
+            cin >> op;
+        }
+        if (op == "s"){
+            cont = 0;
+        } else{
+            keep = false;
+            return;
+        }
+    }
+    if(keep){
+        vector<Tuple<int>> tuples = node->getValues();
+        cout <<node->getKey() << " [";
+        for (int i = 0; i < tuples.size(); i++){
+            cout << "(" << tuples[i].getFila() << ", " << tuples[i].getColumna() << ") ";
+        }
+        cout << endl;
+        cont++;
+    }
+
+    rec_print40(node->right(),cont,keep);
+    
+}

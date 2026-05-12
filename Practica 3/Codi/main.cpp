@@ -48,43 +48,45 @@ void mainExercici1(){
     cout << endl;
 } 
 
-void opcio1(WordIndexer* wordIn){
-    if(wordIn != nullptr) delete wordIn;
+void opcio1(WordIndexer*& wordIn){
+    if(wordIn != nullptr) { 
+        delete wordIn;
+        wordIn = nullptr;
+    }
     string entrada = "start";
     while (entrada != "P" && entrada!= "G" && entrada != "p" && entrada != "g"){
-        cout << "Quin fitxer vols (P/G)?" ;
+        cout << "Quin fitxer vols (P/G)? " ;
         cin >> entrada;
-        WordIndexer wordIn;
         if(entrada == "P" || entrada == "p"){
             chrono::steady_clock::time_point begin = chrono::steady_clock::now();
-            wordIn = *new WordIndexer("shortText.txt");
+            wordIn = new WordIndexer("shortText.txt");
             chrono::steady_clock::time_point end = chrono::steady_clock::now();
             cout << "Arbre creat correctament" << endl;
-            cout << "Temps transcorregut: " << chrono::duration_cast<chrono::seconds>(end -begin).count() << " s." << endl;
+            cout << "Temps transcorregut: " << chrono::duration_cast<chrono::microseconds>(end -begin).count() << " µs." << endl;
         } else if (entrada == "G" || entrada == "g"){
             chrono::steady_clock::time_point begin = chrono::steady_clock::now();
-            wordIn = *new WordIndexer("longText.txt");
+            wordIn = new WordIndexer("longText.txt");
             chrono::steady_clock::time_point end = chrono::steady_clock::now();
             cout << "Arbre creat correctament" << endl;
-            cout << "Temps transcorregut: " << chrono::duration_cast<chrono::seconds>(end -begin).count() << " s." << endl;
+            cout << "Temps transcorregut: " << chrono::duration_cast<chrono::microseconds>(end -begin).count() << " µs." << endl;
         } else{
             cout << "Ha de ser P o G" << endl;
         }
     }
 }
 
-void opcio2(WordIndexer* wordIn){
+void opcio2(WordIndexer*& wordIn){
     if (wordIn->size() == 0){
         throw out_of_range("L'arbre està buit");
     }
     chrono::steady_clock::time_point begin = chrono::steady_clock::now();
-    // wordIn->print40(); 
+    wordIn->print40(); 
     chrono::steady_clock::time_point end = chrono::steady_clock::now();
-    cout << "Temps transcorregut: " << chrono::duration_cast<chrono::seconds>(end -begin).count() << " s." << endl;
+    cout << "Temps transcorregut: " << chrono::duration_cast<chrono::microseconds>(end -begin).count() << " µs." << endl;
 
 }
 
-void opcio3(WordIndexer* wordIn){
+void opcio3(WordIndexer*& wordIn){
     if (wordIn->size() == 0){
         throw out_of_range("L'arbre està buit");
     }
@@ -98,38 +100,34 @@ void opcio3(WordIndexer* wordIn){
         
         stringstream ss(linia);
         string paraula;
-        
+        while (ss >> paraula)
+            wordIn->contains(paraula);
     }
     chrono::steady_clock::time_point end = chrono::steady_clock::now();
-    cout << "Temps transcorregut: " << chrono::duration_cast<chrono::seconds>(end -begin).count() << " s." << endl;
+    cout << "Temps transcorregut: " << chrono::duration_cast<chrono::microseconds>(end -begin).count() << " µs." << endl;
 }
 
-void opcio4(WordIndexer* wordIn){
+void opcio4(WordIndexer*& wordIn){
     if (wordIn->size() == 0){
         throw out_of_range("L'arbre està buit");
     }
     chrono::steady_clock::time_point begin = chrono::steady_clock::now();
     wordIn->printDictionary(); 
     chrono::steady_clock::time_point end = chrono::steady_clock::now();
-    cout << "Temps transcorregut: " << chrono::duration_cast<chrono::seconds>(end -begin).count() << " s." << endl;
+    cout << "Temps transcorregut: " << chrono::duration_cast<chrono::microseconds>(end -begin).count() << " µs." << endl;
 }
 
-void opcio5(WordIndexer* wordIn){
+void opcio5(WordIndexer*& wordIn){
     if (wordIn->size() == 0){
         throw out_of_range("L'arbre està buit");
     }
     chrono::steady_clock::time_point begin = chrono::steady_clock::now();
     cout << "La profunditat de l'arbre guardat: " << wordIn->height() << endl;
     chrono::steady_clock::time_point end = chrono::steady_clock::now();
-    cout << "Temps transcorregut: " << chrono::duration_cast<chrono::seconds>(end -begin).count() << " s." << endl;
+    cout << "Temps transcorregut: " << chrono::duration_cast<chrono::microseconds>(end -begin).count() << " µs." << endl;
 }
 
 void mainExercici2(){
-    chrono::steady_clock::time_point begin = chrono::steady_clock::now();
-    // Aquí el vostre codi del que en voleu mesurar el temps d'execució
-    chrono::steady_clock::time_point end = chrono::steady_clock::now();
-    cout << "Temps transcorregut: " << chrono::duration_cast<chrono::seconds>(end -begin).count() << " s." << endl;
-
     string arr_options[] = {"1. Llegir fitxer", "2. Mostrar l'arbre", 
                             "3. Cercar a dictionary.txt", "4. Generar índex de paraules", 
                             "5. Profunditat de l'arbre", "6. Sortir" };
@@ -137,7 +135,7 @@ void mainExercici2(){
     // Creem una variable per guardar l'opció
     int option = -1;
 
-    WordIndexer wordIn;
+    WordIndexer* wordIn = nullptr;
     // creem el bucle principal
     cout << "Benvingut al WordIndexer" << endl;
     while(option != 6){
@@ -163,7 +161,7 @@ void mainExercici2(){
         // Cas llegir un fitxer
         case 1:
             try{
-                opcio1(&wordIn);
+                opcio1(wordIn);
             }catch (exception &e){
                 cerr << "Error: " << e.what() << endl;
             }
@@ -171,7 +169,7 @@ void mainExercici2(){
         // Cas mostrar l'arbre creixent
         case 2:
             try{
-                opcio2(&wordIn);
+                opcio2(wordIn);
             } catch (exception &e){
                 cerr << "Error: " << e.what() << endl;
             }
@@ -179,7 +177,7 @@ void mainExercici2(){
         // Cas llegir fitxer dictionary.txt
         case 3:
             try{
-                opcio3(&wordIn);
+                opcio3(wordIn);
             } catch (exception &e){
                 cerr << "Error: " << e.what() << endl;
             }
@@ -187,7 +185,7 @@ void mainExercici2(){
         // Cas generar índex de paraules
         case 4:
             try{
-                opcio4(&wordIn);
+                opcio4(wordIn);
             } catch (exception &e){
                 cerr << "Error: " << e.what() << endl;
             }
@@ -195,7 +193,7 @@ void mainExercici2(){
          // Cas calcular profunditat de l'arbre
         case 5:
             try{
-                opcio5(&wordIn);
+                opcio5(wordIn);
             } catch (exception &e){
                 cerr << "Error: " << e.what() << endl;
             }

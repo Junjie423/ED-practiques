@@ -268,9 +268,8 @@ template <class Key, class Value> void BinaryTree<Key, Value>::rec_BinaryTree(co
 
 template <class Key, class Value> int BinaryTree<Key, Value>::rec_height(const Position<Key, Value>* act) const{
     // Si no te cap fill (fulla) retorna 1
-    if (act->left() == nullptr && act->right() == nullptr){
-        return 1;
-    }
+    if (act == nullptr)
+        return 0;
     // En cas de no ser-ho fa una crida recursiva fins les fulles i va tornant agafant el height més gran entre els dos fills
     // sumant 1
     return (max(rec_height(act->left()), rec_height(act->right()) + 1));

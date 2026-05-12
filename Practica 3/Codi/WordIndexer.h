@@ -26,6 +26,7 @@ public:
     bool contains(const string &word) const;
     void printOccurrences(const string &word) const;
     void printDictionary(Position<string, Tuple<int> > *node = nullptr) const;
+    void print40() const;
 protected:
     // BSTree 
     BinaryTree<string, Tuple<int>> *tree;
@@ -33,7 +34,6 @@ protected:
 private:
     void insertWord(const string &word, const int &line, const int &position);
     /* Metodes auxiliars, definiu-los aquí sota */
-    void print();
-
+    void rec_print40(Position<string, Tuple<int>>* node, int &cont, bool&) const;
 };
 #endif // WORDINDEXER_H
