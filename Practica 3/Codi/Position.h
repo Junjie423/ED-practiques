@@ -19,9 +19,10 @@ public:
     void setParent(Position<Key, Value>* pos); // O(1)
     void setLeft(Position<Key, Value>* pos); // O(1)
     void setRight(Position<Key, Value>* pos); // O(1)
-    
+    void setHeight(int h); // O(1)
     /* Consultors */
     const Key& getKey() const; // O(1)
+    const int getHeight() const; // O(1)
     const vector<Value>& getValues() const; // O(1)
     Position<Key, Value>* parent() const; // O(1)
     Position<Key, Value>* left() const; // O(1)
@@ -36,6 +37,7 @@ public:
     bool operator==(const Position<Key, Value>& other) const; // O(1)
     
 private:
+    int h;
     Key key;
     vector<Value> values;
     Position<Key, Value>* pare;
@@ -50,6 +52,7 @@ template <class Key, class Value> Position<Key, Value>::Position(const Key clau)
     this->pare = nullptr;
     this->esq = nullptr;
     this->dret = nullptr;
+    this-> h = 1;
 }
 
 template <class Key, class Value> Position<Key, Value>::Position(const Position<Key, Value>& orig){
@@ -59,6 +62,7 @@ template <class Key, class Value> Position<Key, Value>::Position(const Position<
     this->pare = nullptr;
     this->esq = nullptr;
     this->dret = nullptr;
+    this->h = orig.getHeight();
 }
 
 // Destructor
@@ -85,9 +89,17 @@ template <class Key, class Value> void Position<Key, Value>::setRight(Position<K
     this->dret = pos;
 }
 
+template <class Key, class Value> void Position<Key, Value>::setHeight(int h){
+    this->h = h;
+}
+
 // Consultors
 template <class Key, class Value> const Key& Position<Key, Value>::getKey() const{
     return this->key;
+}
+
+template <class Key, class Value> const int Position<Key, Value>::getHeight() const{
+    return this->h;
 }
 
 template <class Key, class Value> const vector<Value>& Position<Key, Value>::getValues() const{
