@@ -165,26 +165,69 @@ template <class Key, class Value> void BalancedTree<Key, Value>::dret_simple(Pos
     // Cal convertir el node en el fill dret del node->left() i passar el fill dret del node->left() en el fill esq del node
     cout << "Abans de la rotació simple dreta sobre: " << node->getKey() << endl;
     this->print();
-    Position<Key, Value>*pare = node->parent();
-    Position<Key, Value>*fill_dret = node->left()->right();
+    Position<Key, Value>* pare = node->parent();
+    Position<Key, Value>* net_dret = node->left()->right();
+    Position<Key, Value>* fill_esq = node->left();
+    
+    // fill_esq  <-> node
     node->setParent(node->left());
-    node->left()->setRight(node);
-    node->setLeft(fill_dret);
-    node->parent()->setParent(pare);
+    fill_esq->setRight(node);
+
+    // node <-> net_dret
+    node->setLeft(net_dret);
+    if (net_dret != nullptr){
+        net_dret->setParent(node);
+    }
+    
+    // pare<-fill_esq 
+    fill_esq->setParent(pare);
+    
+    // pare->fill_esq 
+    if (pare == nullptr){ // Cas que node és arrel
+        this->root = fill_esq;
+    }
+    else if (pare->right() == node){ // Es fill dret
+        pare->setRight(fill_esq);
+    } else{
+        pare->setLeft(fill_esq);
+    }
+
+
     cout << "Després de la rotació simple dreta sobre: " << node->getKey() << endl;
     this->print();
 }
 
 template <class Key, class Value> void BalancedTree<Key, Value>::esq_simple(Position<Key, Value>* node){
-    // Cal convertir el node en el fill esq del node->right() i passar el fill esq del node->right() en el fill dret del node
+    // Cal convertir el node en el fill esq del node->right()) i passar el fill esq del node->right() en el fill dret del node
     cout << "Abans de la rotació simple esquerra sobre: " << node->getKey() << endl;
     this->print();
     Position<Key, Value>*pare = node->parent();
-    Position<Key, Value>*fill_esq = node->right()->left();
+    Position<Key, Value>*net_esq = node->right()->left();
+    Position<Key, Value>*fill_dret = node->right();
+    
+    // fill_dret  <-> node
     node->setParent(node->right());
-    node->right()->setLeft(node);
-    node->setRight(fill_esq);
-    node->parent()->setParent(pare);
+    fill_dret->setLeft(node);
+
+    // node <-> net_dret
+    node->setRight(net_esq);
+    if(net_esq != nullptr){
+        net_esq->setParent(node);
+    }
+    
+    // pare<-fill_dret
+    fill_dret->setParent(pare);
+    
+    // pare->fill_esq 
+    if (pare == nullptr){ // Cas que node és arrel
+        this->root = fill_dret;
+    }
+    else if (pare->right() == node){ // Es fill dret
+        pare->setRight(fill_dret);
+    } else{
+        pare->setLeft(fill_dret);
+    }
+    
     cout << "Abans de la rotació simple esquerra sobre: " << node->getKey() << endl;
     this->print();
 }

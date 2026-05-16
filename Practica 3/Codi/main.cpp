@@ -252,7 +252,7 @@ void mainExercici3(){
 
 int main(){
     //mainExercici1();
-    //mainExercici2();
+    //mainExercici2());
     //mainExercici3();
     
     cout << "   ---  Arbre buit ---" << endl;
