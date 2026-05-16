@@ -25,7 +25,7 @@ public:
     Position<Key, Value>* getRoot() const; // O(1)
     int size() const; // O(1)
     int height() const;  // O(n)
-    virtual Position<Key, Value>* insert(const Key& key, const Value& value); // O(log n) millor cas, O(n) pitjor cas
+    virtual Position<Key, Value>* insert(const Key& key, const Value& value); // O(log n) millor cas, O(n) pitjor cas (arbre lineal)
     bool contains(const Key& key) const; // O(log n) millor cas, O(n) pitjor cas
     Position<Key, Value>* search(const Key& key) const; // O(log n) millor cas, O(n) pitjor cas
     const vector<Value>& getValues(const Key& key) const; // O(log n) millor cas, O(n) pitjor cas
@@ -33,9 +33,6 @@ public:
     void printPostOrder(const Position<Key, Value> *node = nullptr) const; // O(n)
     bool identicalTree(const BinaryTree<Key, Value>& other) const; // O(n)
     vector<Key> getLeaves() const; // O(n)
-
-    // Mètode per visualitzar l'arbre (mètode d'ajuda) 
-    void print() const; //Autor: Camilo Chicaiza Toapanta
     
 protected:
     Position<Key, Value>* root;
@@ -357,97 +354,5 @@ template <class Key, class Value> void BinaryTree<Key, Value>::rec_getLeaves(Pos
         rec_getLeaves(node->right(), vect);
     }
 }
-
-/*
-Codi fet per: Camilo Chicaiza Toapanta
-Mètode print per visualitzar l'arbre per tal de facilitar l'implementació dels codis
-*/
-/*
-template <class Key, class Value>void BinaryTree<Key, Value>::print() const {
-    if (isEmpty()) { 
-        cout << " --- Arbre buit ---" << endl;
-        return;
-    }
-    
-    int h = this->height();
-    if (h > 6) { 
-        cout << " --- Arbre massa gran ---" << endl;
-        return;
-    }
-
-    cout << "  --- Nodes : " + to_string(size()) + " ---" << endl;
-
-    auto convert_str = [](const Key& k) -> string {
-        ostringstream oss;
-        oss << k;
-        return oss.str();
-    };
-
-    auto center = [](const string& str, int width) -> string {
-        int len = str.length();
-        if (width <= len) return str;
-        int pad_left = (width - len) / 2;
-        int pad_right = width - len - pad_left;
-        return string(pad_left, ' ') + str + string(pad_right, ' ');
-    };
-    
-    int base = 4;
-    int amplada = pow(2, h - 1) * base;
-
-    queue<Position<Key, Value>*> cua;
-
-    cua.push(root);
-
-    Position<Key, Value>* top;
-    int nivell = 0;
-    int fets = 0;
-    
-    while (amplada >= base) {
-        top = cua.front();
-        
-        if (top == nullptr) {
-            cout << center("  ", amplada);
-        }
-        else {
-            cout << center(convert_str(top->getKey()), amplada);
-        }
-        
-        cua.pop();
-        fets++;
-
-        if (top == nullptr) {
-            cua.push(nullptr);
-            cua.push(nullptr);
-        }
-        else {
-            cua.push(top->left());
-            cua.push(top->right());
-        }
-
-        if ((fets & (fets + 1)) == 0) {
-            amplada /= 2;
-            cout << endl;
-
-            if (amplada < base) continue;
-            
-            int num_Nodes = pow(2, nivell);
-
-            queue<Position<Key, Value>*> copia = cua;
-            
-            for (int i = 0; i < num_Nodes; i++) {
-                Position<Key, Value>* izq = copia.front(); copia.pop();
-                Position<Key, Value>* der = copia.front(); copia.pop();
-                
-                string brancaIzq = (izq != nullptr) ? " /" : "  ";
-                string brancaDer = (der != nullptr) ? "\\ " : "  ";
-                
-                cout << center(brancaIzq, amplada) << center(brancaDer, amplada);
-            }
-            cout << endl;
-            nivell++;
-        }
-    } 
-}
-*/
 
 #endif // BINARYTREE_H
