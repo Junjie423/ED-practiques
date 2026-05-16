@@ -1,14 +1,10 @@
 #include "WordIndexerBalanced.h"
-#include "WordIndexer.h"
 #include "BalancedTree.h"
-#include "Position.h"
-#include "Tuple.h"
 #include <stdexcept>
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>
-#include <chrono>
 
 using namespace std;
 

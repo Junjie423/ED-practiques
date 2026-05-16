@@ -90,12 +90,12 @@ template <class Key, class Value> void BalancedTree<Key, Value>::rotacio(Positio
     if (factor == 2){
         // Si el net està esquerre esquerre fem rotació simple dret (passant el alfa)
         if (node->left()->left() == net){
-            cout << "Cal fer una rotació simple dreta" << endl;
+            //cout << "Cal fer una rotació simple dreta" << endl;
             dret_simple(node);
         } else{
             // Cas que el net esta esquerra dreta (cal fer doble esq-dret)
             // Rotem esq al node left de l'alfa (amb el net) i després fem una rotació simple dret amb l'alfa (en aquest moment el seu node left serà el net)
-            cout << "Cal fer una rotació doble esquerra-dreta" << endl;
+            //cout << "Cal fer una rotació doble esquerra-dreta" << endl;
             esq_simple(node->left());
             dret_simple(node);
         }
@@ -103,12 +103,12 @@ template <class Key, class Value> void BalancedTree<Key, Value>::rotacio(Positio
     else if (factor == -2){
         // Cas de que el net està dreta dreta (cal fer esq simple amb el alfa)
         if (node->right()->right() == net){
-            cout << "Cal fer una rotació simple esquerra" << endl;
+            //cout << "Cal fer una rotació simple esquerra" << endl;
             esq_simple(node);
         }else{
             // Cas de que el net està dreta esquerra (cal fer doble dret-esq)
             // Rotem primer simple dret al node right de l'alfa i després fem un simple esq al node alfa
-            cout << "Cal fer una rotació doble dreta-esquerra" << endl;
+            //cout << "Cal fer una rotació doble dreta-esquerra" << endl;
             dret_simple(node->right());
             esq_simple(node);
         }

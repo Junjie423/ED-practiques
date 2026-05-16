@@ -2,13 +2,26 @@
 #include "BinaryTree.h"
 #include "Tuple.h"
 #include "WordIndexer.h"
-#include "WordIndexer.cpp"
 #include "BalancedTree.h"
 #include "WordIndexerBalanced.h"
 #include <iostream>
+#include <fstream>
 #include <chrono>
 #include <stdexcept>
 using namespace std;
+/*
+            Exercici 5: Taula temps de generació de l'estructura i cerca
+            +--------------+-----------+-----------+------------+----------+----------+--------------+
+            |              | Inserció  | Inserció  |  Inserció  |  Cerca   |  Cerca   |    Cerca     |
+            |              |  Fitxer   |  Fitxer   |  Fitxer    |  Fitxer  |  Fitxer  |    Fitxer    |
+            |              |   SHORT   |   LONG    | UNBALANCED |  SHORT   |   LONG   |  UNBALANCED  |
+            +--------------+-----------+-----------+------------+----------+----------+--------------+
+            | BinaryTree   |   797 μs  | 30478 μs  | 3716649 μs | 314426 μs| 474196 μs| 130460848 μs |     
+            +--------------+-----------+-----------+------------+----------+----------+--------------+
+            | BalancedTree |  1092 μs  | 35631 μs  | 21213 μs   | 238080 μs| 406348 μs| 356344 μs    |
+            +--------------+-----------+-----------+------------+----------+----------+--------------+
+*/
+
 
 void mainExercici1(){
     BinaryTree<int, int> tree1;
@@ -51,85 +64,6 @@ void mainExercici1(){
     cout << endl;
 } 
 
-void opcio1(WordIndexer* wordIn){
-    if(wordIn != nullptr) { 
-        delete wordIn;
-        wordIn = nullptr;
-    }
-    string entrada = "start";
-    while (entrada != "P" && entrada!= "G" && entrada != "p" && entrada != "g"){
-        cout << "Quin fitxer vols (P/G)? " ;
-        cin >> entrada;
-        if(entrada == "P" || entrada == "p"){
-            chrono::steady_clock::time_point begin = chrono::steady_clock::now();
-            wordIn = new WordIndexer("shortText.txt");
-            chrono::steady_clock::time_point end = chrono::steady_clock::now();
-            cout << "Arbre creat correctament" << endl;
-            cout << "Temps transcorregut: " << chrono::duration_cast<chrono::microseconds>(end -begin).count() << " µs." << endl;
-        } else if (entrada == "G" || entrada == "g"){
-            chrono::steady_clock::time_point begin = chrono::steady_clock::now();
-            wordIn = new WordIndexer("longText.txt");
-            chrono::steady_clock::time_point end = chrono::steady_clock::now();
-            cout << "Arbre creat correctament" << endl;
-            cout << "Temps transcorregut: " << chrono::duration_cast<chrono::microseconds>(end -begin).count() << " µs." << endl;
-        } else{
-            cout << "Ha de ser P o G" << endl;
-        }
-    }
-}
-
-void opcio2(WordIndexer* wordIn){
-    if (wordIn->size() == 0){
-        throw out_of_range("L'arbre està buit");
-    }
-    chrono::steady_clock::time_point begin = chrono::steady_clock::now();
-    wordIn->print40(); 
-    chrono::steady_clock::time_point end = chrono::steady_clock::now();
-    cout << "Temps transcorregut: " << chrono::duration_cast<chrono::microseconds>(end -begin).count() << " µs." << endl;
-
-}
-
-void opcio3(WordIndexer* wordIn){
-    if (wordIn->size() == 0){
-        throw out_of_range("L'arbre està buit");
-    }
-    chrono::steady_clock::time_point begin = chrono::steady_clock::now();
-    ifstream file("dictionary.txt");
-    if(!file.is_open()){
-        throw runtime_error("No s'ha pogut obrir el fitxer");
-    }
-    string linia;
-    while(getline(file, linia)){
-        
-        stringstream ss(linia);
-        string paraula;
-        while (ss >> paraula)
-            wordIn->contains(paraula);
-    }
-    chrono::steady_clock::time_point end = chrono::steady_clock::now();
-    cout << "Temps transcorregut: " << chrono::duration_cast<chrono::microseconds>(end -begin).count() << " µs." << endl;
-}
-
-void opcio4(WordIndexer* wordIn){
-    if (wordIn->size() == 0){
-        throw out_of_range("L'arbre està buit");
-    }
-    chrono::steady_clock::time_point begin = chrono::steady_clock::now();
-    wordIn->printDictionary(); 
-    chrono::steady_clock::time_point end = chrono::steady_clock::now();
-    cout << "Temps transcorregut: " << chrono::duration_cast<chrono::microseconds>(end -begin).count() << " µs." << endl;
-}
-
-void opcio5(WordIndexer* wordIn){
-    if (wordIn->size() == 0){
-        throw out_of_range("L'arbre està buit");
-    }
-    chrono::steady_clock::time_point begin = chrono::steady_clock::now();
-    cout << "La profunditat de l'arbre guardat: " << wordIn->height() << endl;
-    chrono::steady_clock::time_point end = chrono::steady_clock::now();
-    cout << "Temps transcorregut: " << chrono::duration_cast<chrono::microseconds>(end -begin).count() << " µs." << endl;
-}
-
 void mainExercici2(){
     string arr_options[] = {"1. Llegir fitxer", "2. Mostrar l'arbre", 
                             "3. Cercar a dictionary.txt", "4. Generar índex de paraules", 
@@ -164,7 +98,30 @@ void mainExercici2(){
         // Cas llegir un fitxer
         case 1:
             try{
-                opcio1(wordIn);
+                if(wordIn != nullptr) { 
+                    delete wordIn;
+                    wordIn = nullptr;
+                }
+                string entrada = "start";
+                while (entrada != "P" && entrada!= "G" && entrada != "p" && entrada != "g"){
+                    cout << "Quin fitxer vols (P/G)? " ;
+                    cin >> entrada;
+                    if(entrada == "P" || entrada == "p"){
+                        chrono::steady_clock::time_point begin = chrono::steady_clock::now();
+                        wordIn = new WordIndexer("shortText.txt");
+                        chrono::steady_clock::time_point end = chrono::steady_clock::now();
+                        cout << "Arbre creat correctament" << endl;
+                        cout << "Temps transcorregut: " << chrono::duration_cast<chrono::microseconds>(end -begin).count() << " µs." << endl;
+                    } else if (entrada == "G" || entrada == "g"){
+                        chrono::steady_clock::time_point begin = chrono::steady_clock::now();
+                        wordIn = new WordIndexer("longText.txt");
+                        chrono::steady_clock::time_point end = chrono::steady_clock::now();
+                        cout << "Arbre creat correctament" << endl;
+                        cout << "Temps transcorregut: " << chrono::duration_cast<chrono::microseconds>(end -begin).count() << " µs." << endl;
+                    } else{
+                        cout << "Ha de ser P o G" << endl;
+                    }
+                }
             }catch (exception &e){
                 cerr << "Error: " << e.what() << endl;
             }
@@ -172,7 +129,13 @@ void mainExercici2(){
         // Cas mostrar l'arbre creixent
         case 2:
             try{
-                opcio2(wordIn);
+                if (wordIn->size() == 0){
+                    throw out_of_range("L'arbre està buit");
+                }
+                chrono::steady_clock::time_point begin = chrono::steady_clock::now();
+                wordIn->print40(); 
+                chrono::steady_clock::time_point end = chrono::steady_clock::now();
+                cout << "Temps transcorregut: " << chrono::duration_cast<chrono::microseconds>(end -begin).count() << " µs." << endl;
             } catch (exception &e){
                 cerr << "Error: " << e.what() << endl;
             }
@@ -180,7 +143,20 @@ void mainExercici2(){
         // Cas llegir fitxer dictionary.txt
         case 3:
             try{
-                opcio3(wordIn);
+                if (wordIn->size() == 0){
+                    throw out_of_range("L'arbre està buit");
+                }
+                chrono::steady_clock::time_point begin = chrono::steady_clock::now();
+                ifstream file("dictionary.txt");
+                if(!file.is_open()){
+                    throw runtime_error("No s'ha pogut obrir el fitxer");
+                }
+                string paraula;
+                while(file >> paraula){
+                    wordIn->contains(paraula);
+                }
+                chrono::steady_clock::time_point end = chrono::steady_clock::now();
+                cout << "Temps transcorregut: " << chrono::duration_cast<chrono::microseconds>(end -begin).count() << " µs." << endl;
             } catch (exception &e){
                 cerr << "Error: " << e.what() << endl;
             }
@@ -188,7 +164,13 @@ void mainExercici2(){
         // Cas generar índex de paraules
         case 4:
             try{
-                opcio4(wordIn);
+                if (wordIn->size() == 0){
+                throw out_of_range("L'arbre està buit");
+                }
+                chrono::steady_clock::time_point begin = chrono::steady_clock::now();
+                wordIn->printDictionary(); 
+                chrono::steady_clock::time_point end = chrono::steady_clock::now();
+                cout << "Temps transcorregut: " << chrono::duration_cast<chrono::microseconds>(end -begin).count() << " µs." << endl;
             } catch (exception &e){
                 cerr << "Error: " << e.what() << endl;
             }
@@ -196,7 +178,13 @@ void mainExercici2(){
          // Cas calcular profunditat de l'arbre
         case 5:
             try{
-                opcio5(wordIn);
+                if (wordIn->size() == 0){
+                    throw out_of_range("L'arbre està buit");
+                }
+                chrono::steady_clock::time_point begin = chrono::steady_clock::now();
+                cout << "La profunditat de l'arbre guardat: " << wordIn->height() << endl;
+                chrono::steady_clock::time_point end = chrono::steady_clock::now();
+                cout << "Temps transcorregut: " << chrono::duration_cast<chrono::microseconds>(end -begin).count() << " µs." << endl;
             } catch (exception &e){
                 cerr << "Error: " << e.what() << endl;
             }
@@ -250,33 +238,6 @@ void mainExercici3(){
     cout << endl;
 } 
 
-void opcio1_Balanced(WordIndexerBalanced* wordIn){
-    if(wordIn != nullptr) { 
-        delete wordIn;
-        wordIn = nullptr;
-    }
-    string entrada = "start";
-    while (entrada != "P" && entrada!= "G" && entrada != "p" && entrada != "g"){
-        cout << "Quin fitxer vols (P/G)? " ;
-        cin >> entrada;
-        if(entrada == "P" || entrada == "p"){
-            chrono::steady_clock::time_point begin = chrono::steady_clock::now();
-            wordIn = new WordIndexerBalanced("shortText.txt");
-            chrono::steady_clock::time_point end = chrono::steady_clock::now();
-            cout << "Arbre creat correctament" << endl;
-            cout << "Temps transcorregut: " << chrono::duration_cast<chrono::microseconds>(end -begin).count() << " µs." << endl;
-        } else if (entrada == "G" || entrada == "g"){
-            chrono::steady_clock::time_point begin = chrono::steady_clock::now();
-            wordIn = new WordIndexerBalanced("longText.txt");
-            chrono::steady_clock::time_point end = chrono::steady_clock::now();
-            cout << "Arbre creat correctament" << endl;
-            cout << "Temps transcorregut: " << chrono::duration_cast<chrono::microseconds>(end -begin).count() << " µs." << endl;
-        } else{
-            cout << "Ha de ser P o G" << endl;
-        }
-    }
-}
-
 void mainExercici4(){
     string arr_options[] = {"1. Llegir fitxer", "2. Mostrar l'arbre", 
                             "3. Cercar a dictionary.txt", "4. Generar índex de paraules", 
@@ -311,7 +272,30 @@ void mainExercici4(){
         // Cas llegir un fitxer
         case 1:
             try{
-                opcio1_Balanced(wordIn);
+                if(wordIn != nullptr) { 
+                    delete wordIn;
+                    wordIn = nullptr;
+                }
+                string entrada = "start";
+                while (entrada != "P" && entrada!= "G" && entrada != "p" && entrada != "g"){
+                    cout << "Quin fitxer vols (P/G)? " ;
+                    cin >> entrada;
+                    if(entrada == "P" || entrada == "p"){
+                        chrono::steady_clock::time_point begin = chrono::steady_clock::now();
+                        wordIn = new WordIndexerBalanced("shortText.txt");
+                        chrono::steady_clock::time_point end = chrono::steady_clock::now();
+                        cout << "Arbre creat correctament" << endl;
+                        cout << "Temps transcorregut: " << chrono::duration_cast<chrono::microseconds>(end -begin).count() << " µs." << endl;
+                    } else if (entrada == "G" || entrada == "g"){
+                        chrono::steady_clock::time_point begin = chrono::steady_clock::now();
+                        wordIn = new WordIndexerBalanced("longText.txt");
+                        chrono::steady_clock::time_point end = chrono::steady_clock::now();
+                        cout << "Arbre creat correctament" << endl;
+                        cout << "Temps transcorregut: " << chrono::duration_cast<chrono::microseconds>(end -begin).count() << " µs." << endl;
+                    } else{
+                        cout << "Ha de ser P o G" << endl;
+                    }
+                }
             }catch (exception &e){
                 cerr << "Error: " << e.what() << endl;
             }
@@ -319,7 +303,13 @@ void mainExercici4(){
         // Cas mostrar l'arbre creixent
         case 2:
             try{
-                opcio2(wordIn);
+                if (wordIn->size() == 0){
+                    throw out_of_range("L'arbre està buit");
+                }
+                chrono::steady_clock::time_point begin = chrono::steady_clock::now();
+                wordIn->print40(); 
+                chrono::steady_clock::time_point end = chrono::steady_clock::now();
+                cout << "Temps transcorregut: " << chrono::duration_cast<chrono::microseconds>(end -begin).count() << " µs." << endl;
             } catch (exception &e){
                 cerr << "Error: " << e.what() << endl;
             }
@@ -327,7 +317,20 @@ void mainExercici4(){
         // Cas llegir fitxer dictionary.txt
         case 3:
             try{
-                opcio3(wordIn);
+                if (wordIn->size() == 0){
+                    throw out_of_range("L'arbre està buit");
+                }
+                chrono::steady_clock::time_point begin = chrono::steady_clock::now();
+                ifstream file("dictionary.txt");
+                if(!file.is_open()){
+                    throw runtime_error("No s'ha pogut obrir el fitxer");
+                }
+                string paraula;
+                while(file >> paraula){
+                    wordIn->contains(paraula);
+                }
+                chrono::steady_clock::time_point end = chrono::steady_clock::now();
+                cout << "Temps transcorregut: " << chrono::duration_cast<chrono::microseconds>(end -begin).count() << " µs." << endl;
             } catch (exception &e){
                 cerr << "Error: " << e.what() << endl;
             }
@@ -335,7 +338,13 @@ void mainExercici4(){
         // Cas generar índex de paraules
         case 4:
             try{
-                opcio4(wordIn);
+                if (wordIn->size() == 0){
+                throw out_of_range("L'arbre està buit");
+                }
+                chrono::steady_clock::time_point begin = chrono::steady_clock::now();
+                wordIn->printDictionary(); 
+                chrono::steady_clock::time_point end = chrono::steady_clock::now();
+                cout << "Temps transcorregut: " << chrono::duration_cast<chrono::microseconds>(end -begin).count() << " µs." << endl;
             } catch (exception &e){
                 cerr << "Error: " << e.what() << endl;
             }
@@ -343,7 +352,13 @@ void mainExercici4(){
          // Cas calcular profunditat de l'arbre
         case 5:
             try{
-                opcio5(wordIn);
+                if (wordIn->size() == 0){
+                    throw out_of_range("L'arbre està buit");
+                }
+                chrono::steady_clock::time_point begin = chrono::steady_clock::now();
+                cout << "La profunditat de l'arbre guardat: " << wordIn->height() << endl;
+                chrono::steady_clock::time_point end = chrono::steady_clock::now();
+                cout << "Temps transcorregut: " << chrono::duration_cast<chrono::microseconds>(end -begin).count() << " µs." << endl;
             } catch (exception &e){
                 cerr << "Error: " << e.what() << endl;
             }
@@ -356,10 +371,101 @@ void mainExercici4(){
     }
 }
 
+void cal_TempsCerca(WordIndexer* wordId){
+    chrono::steady_clock::time_point begin = chrono::steady_clock::now();
+    ifstream dades ("dictionary.txt");
+    if (!dades.is_open())                    
+        throw runtime_error("No s'ha pogut obrir dictionary.txt");
+    
+    string paraula;         
+    while (dades >> paraula)                        
+        wordId-> contains(paraula);                    
+    dades.close();
+    chrono::steady_clock::time_point end = chrono::steady_clock::now();
+    cout << chrono::duration_cast<chrono::microseconds>(end -begin).count() << " µs" << endl;
+}
+
+void mainExercici5(){
+    cout << "--- Per el BinaryTree --- " << endl;
+    WordIndexer* wordIn;
+    cout << "    Cas Short: " << endl;
+    cout << " -> Inserció: ";
+    chrono::steady_clock::time_point begin1 = chrono::steady_clock::now();
+    wordIn = new WordIndexer("shortText.txt");
+    chrono::steady_clock::time_point end1 = chrono::steady_clock::now();
+    cout << chrono::duration_cast<chrono::microseconds>(end1 -begin1).count() << " µs" << endl;
+    cout << " -> Cerca: " ;
+    cal_TempsCerca(wordIn);
+
+    delete wordIn; 
+    wordIn = nullptr;
+
+    cout << endl << "    Cas Long: " << endl;
+    cout << " -> Inserció: ";
+    chrono::steady_clock::time_point begin2 = chrono::steady_clock::now();
+    wordIn = new WordIndexer("longText.txt");
+    chrono::steady_clock::time_point end2 = chrono::steady_clock::now();
+    cout << chrono::duration_cast<chrono::microseconds>(end2 -begin2).count() << " µs" << endl;
+    cout << " -> Cerca: " ;
+    cal_TempsCerca(wordIn);
+
+    delete wordIn;
+    wordIn = nullptr;
+
+    cout << endl << "    Cas Unbalanced: " << endl;
+    cout << " -> Inserció: ";
+    chrono::steady_clock::time_point begin3 = chrono::steady_clock::now();
+    wordIn = new WordIndexer("unbalancedText.txt");
+    chrono::steady_clock::time_point end3 = chrono::steady_clock::now();
+    cout << chrono::duration_cast<chrono::microseconds>(end3 -begin3).count() << " µs" << endl;
+    cout << " -> Cerca: " ;
+    cal_TempsCerca(wordIn);
+
+    delete wordIn;
+
+    cout << endl << endl << " --- Per el BalancedTree --- " << endl;
+    WordIndexerBalanced* balancedWordIn;
+    cout << "    Cas Short: " << endl;
+    cout << " -> Inserció: ";
+    chrono::steady_clock::time_point begin4 = chrono::steady_clock::now();
+    balancedWordIn = new WordIndexerBalanced("shortText.txt");
+    chrono::steady_clock::time_point end4 = chrono::steady_clock::now();
+    cout << chrono::duration_cast<chrono::microseconds>(end4 -begin4).count() << " µs" << endl;
+    cout << " -> Cerca: " ;
+    cal_TempsCerca(balancedWordIn);
+
+    delete balancedWordIn; 
+    balancedWordIn = nullptr;
+
+    cout << endl << "    Cas Long: " << endl;
+    cout << " -> Inserció: ";
+    chrono::steady_clock::time_point begin5 = chrono::steady_clock::now();
+    balancedWordIn = new WordIndexerBalanced("longText.txt");
+    chrono::steady_clock::time_point end5 = chrono::steady_clock::now();
+    cout << chrono::duration_cast<chrono::microseconds>(end5 -begin5).count() << " µs" << endl;
+    cout << " -> Cerca: " ;
+    cal_TempsCerca(balancedWordIn);
+
+    delete balancedWordIn;
+    balancedWordIn = nullptr;
+
+    cout << endl << "    Cas Unbalanced: " << endl;
+    cout << " -> Inserció: ";
+    chrono::steady_clock::time_point begin6 = chrono::steady_clock::now();
+    balancedWordIn = new WordIndexerBalanced("unbalancedText.txt");
+    chrono::steady_clock::time_point end6 = chrono::steady_clock::now();
+    cout << chrono::duration_cast<chrono::microseconds>(end6 -begin6).count() << " µs" << endl;
+    cout << " -> Cerca: " ;
+    cal_TempsCerca(balancedWordIn);
+
+    delete balancedWordIn;
+}
+
 int main(){
     //mainExercici1();
     //mainExercici2();
     //mainExercici3();
-    mainExercici4();
+    //mainExercici4();
+    mainExercici5();
     return 0;
 }

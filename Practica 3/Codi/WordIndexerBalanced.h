@@ -2,15 +2,12 @@
 #define WORDINDEXERBALANCED_H
 
 #include "WordIndexer.h"
-#include "Tuple.h"
-#include "BinaryTree.h"
-#include "Position.h"
+#include "BalancedTree.h"
 #include <stdexcept>
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>
-#include <chrono>
 
 using namespace std;
 
