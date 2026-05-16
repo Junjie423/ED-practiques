@@ -7,6 +7,12 @@
 #include <stdexcept>
 #include <algorithm>
 
+//Para el print
+#include <string>
+#include <queue>
+#include <cmath>
+#include <sstream>
+
 using namespace std;
 
 template <class Key, class Value>
@@ -27,6 +33,8 @@ public:
     void printPostOrder(const Position<Key, Value> *node = nullptr) const; // O(n)
     bool identicalTree(const BinaryTree<Key, Value>& other) const; // O(n)
     vector<Key> getLeaves() const; // O(n)
+
+    void print() const;
     
 protected:
     Position<Key, Value>* root;
@@ -273,7 +281,7 @@ template <class Key, class Value> int BinaryTree<Key, Value>::rec_height(const P
         return 0;
     // En cas de no ser-ho fa una crida recursiva fins les fulles i va tornant agafant el height més gran entre els dos fills
     // sumant 1
-    return (max(rec_height(act->left()), rec_height(act->right()) + 1));
+    return (max(rec_height(act->left()), rec_height(act->right())) + 1);
 }
 
 template <class Key, class Value> Position<Key, Value>* BinaryTree<Key, Value>::rec_search(Position<Key, Value>* act,const Key& key) const{
@@ -345,6 +353,131 @@ template <class Key, class Value> void BinaryTree<Key, Value>::rec_getLeaves(Pos
         // En cas de no ser fulla, cridem recursivament per el fill esquerre i després pel fill dret, passant el mateix vector per anar omplint
         rec_getLeaves(node->left(), vect);
         rec_getLeaves(node->right(), vect);
+    }
+}
+
+template <class Key, class Value>
+void BinaryTree<Key, Value>::print() const {
+    if (isEmpty()) { 
+        cout << " --- Arbre buit ---" << endl;
+        return;
+    }
+    
+    // Llindar
+    int h = this->height();
+    if (h > 6) { 
+        cout << " --- Arbre massa gran ---" << endl;
+        return;
+    }
+
+    cout << "  --- Nodes : " + to_string(size()) + " ---" << endl;
+
+    // ==========================================
+    // Funciones Lambda (Auxiliares integradas)
+    // ==========================================
+    
+    // Convierte un tipo genérico a string usando un flujo de salida
+    auto convert_str = [](const Key& k) -> string {
+        ostringstream oss;
+        oss << k;
+        return oss.str();
+    };
+
+    // Centra un string dentro de un ancho específico rellenando con espacios
+    auto center = [](const string& str, int width) -> string {
+        int len = str.length();
+        if (width <= len) return str;
+        int pad_left = (width - len) / 2;
+        int pad_right = width - len - pad_left;
+        return string(pad_left, ' ') + str + string(pad_right, ' ');
+    };
+
+    // ==========================================
+
+    // Amplada maxima para centrar de manera que abajo quede xx--xx--xx--....
+    // xx-- son cuatro caracteres, y sabemos que habran 2^h elementos (h = alçada)
+    int base = 4; // Espai per a cada element a la base de l'arbre
+    int amplada = pow(2, h - 1) * base;
+
+    // Recorregut d'amplada amb cua com vist a teoria
+    queue<Position<Key, Value>*> cua;
+
+    // Comencem amb el root
+    cua.push(root);
+
+    // Variables auxiliars
+    Position<Key, Value>* top;
+    int nivell = 0;
+    int fets = 0;
+    
+    // 4 espai_minim es un element, en 2 ja no hauria de fer print
+    while (amplada >= base) {
+        // Agafem el front
+        top = cua.front();
+        
+        // Si es null imprimeix l'espai
+        if (top == nullptr) {
+            cout << center("  ", amplada);
+        }
+        // Sino agafem la key del node i la imprimeix
+        else {
+            cout << center(convert_str(top->getKey()), amplada);
+        }
+        
+        // Treiem l'imprès
+        cua.pop();
+        fets++;
+
+        // Si es null fiquem mes nuls per completar a un arbre perfecte
+        if (top == nullptr) {
+            cua.push(nullptr);
+            cua.push(nullptr);
+        }
+        // Sino els corresponents
+        else {
+            cua.push(top->left());
+            cua.push(top->right());
+        }
+
+        /*
+          Los numeros de la forma si k = 2^(n+1) -1 son  k = 01111111
+          enotnces k+1 = 1000000
+          entonces k & (k+1) = 0 combinando los bits
+
+          Si k es de esta forma entonces habremos hecho los nodos de un arbol perfecto
+          como la queue tiene los null para rellenar entonces k se esa forma dice que
+          hay que hacer un salto de linea
+        */
+        if ((fets & (fets + 1)) == 0) {
+            // Salt
+            amplada /= 2;
+            cout << endl;
+
+            // Atura a l'ultim nivell
+            if (amplada < base) continue;
+            
+            // Palitos que conecten els nodes
+            int num_Nodes = pow(2, nivell);
+
+            // Per a cada node del nivell imprimin els palets a sota de cada node
+            // Clon de la cua
+            queue<Position<Key, Value>*> copia = cua;
+            
+            // Per cada node del nivell actual
+            for (int i = 0; i < num_Nodes; i++) {
+                // Agafem els fills
+                Position<Key, Value>* izq = copia.front(); copia.pop();
+                Position<Key, Value>* der = copia.front(); copia.pop();
+                
+                // Fem les branques si hi ha fill
+                string brancaIzq = (izq != nullptr) ? " /" : "  ";
+                string brancaDer = (der != nullptr) ? "\\ " : "  ";
+                
+                cout << center(brancaIzq, amplada) << center(brancaDer, amplada);
+            }
+            cout << endl;
+            nivell++;
+        }
     }
 }
 
