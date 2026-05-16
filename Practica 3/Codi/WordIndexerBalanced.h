@@ -15,9 +15,9 @@
 using namespace std;
 
 class WordIndexerBalanced : public WordIndexer {
-public:
-WordIndexerBalanced(string path);
-WordIndexerBalanced(const WordIndexerBalanced& orig);
-virtual ~WordIndexerBalanced();
+    public:
+        WordIndexerBalanced(string path);
+        WordIndexerBalanced(const WordIndexerBalanced& orig);
+        virtual ~WordIndexerBalanced();
 };
 #endif // WORDINDEXERBALANCED_H
