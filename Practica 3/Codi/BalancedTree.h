@@ -45,22 +45,29 @@ template <class Key, class Value> BalancedTree<Key, Value>::~BalancedTree(){} //
 // Mètodes
 template <class Key, class Value> Position<Key, Value>* BalancedTree<Key, Value>::insert(const Key& key, const Value& value){
     // Creem un punter que apunta el nou node insertat
-    Position<Key, Value>*node_nou = BinaryTree<Key, Value>::insert(key, value);
+    Position<Key, Value>* node_nou = BinaryTree<Key, Value>::insert(key, value);
 
-
-    if (node_nou == this->getRoot() || node_nou->parent() == this->getRoot()) return node_nou;
+    // Si es l'arrel o el seu pare és l'arrel no cal fer canvis
+    if (node_nou == this->root){
+        return node_nou;
+    }
+    if (node_nou == nullptr){
+        cout << "why?";
+    }
+    if (node_nou->parent() == nullptr){
+        return node_nou;
+    }
     
     // Iterem cap a dalt per actualitzar les altures dels antecedents i comprovem que el balaced factor no sigui 2 o -2
-    Position<Key, Value>*iterator = node_nou->parent()->parent();
-    Position<Key, Value>*iterator_fill= node_nou->parent();
-    Position<Key, Value>*iterator_net = node_nou;
+    Position<Key, Value>* iterator = node_nou->parent()->parent();
+    Position<Key, Value>* iterator_fill= node_nou->parent();
+    Position<Key, Value>* iterator_net = node_nou;
     
     int bf = 0;
-    int none; // Només serveix per actualitzar l'altura del fill, no s'utilitzarà el seu balanced factor (el pare del node nou mai estarà desequilibrat)
     // Mentre l'alfa (iterator) no sigui nullptr
-    while(iterator == nullptr){
+    while(iterator_net != nullptr){
         // Actualitzem l'altura del fill i de l'alfa i calculem el balanced factor de l'alfa
-        none = act_height_balance(iterator_fill);
+        act_height_balance(iterator_fill);
         bf = act_height_balance(iterator);
         // Cridem a la funcio rotacio amb el alfa, el node net i el balanced factor de l'alfa
         rotacio(iterator, iterator_net, bf);
@@ -68,41 +75,13 @@ template <class Key, class Value> Position<Key, Value>* BalancedTree<Key, Value>
         // Pujem
         iterator_net = iterator_fill;
         iterator_fill = iterator;
-        iterator = iterator->parent();
+        if (iterator != nullptr){
+        iterator = iterator->parent();    
+        }
     }
 
     return node_nou;
  }
-//h.dret - h.esquerra 
-    /*  Esquerra (factor = -2)
-        a                   
-         \                  b     
-          b     --->      /  \
-         / \             a    c
-            c             \
-    */
-    /*  Dreta (factor = 2)
-            c      
-           /                b     
-          b     --->      /  \
-         / \             a    c
-        a                    /
-    */
-    /*  Dreta-Esquerra (factor = -2)
-        a              a 
-         \              \                   b     
-          c     --->    b       --->      /  \
-         /                \               a    c
-        b                 c                                       
-                          
-    */
-    /*  Esquerra-Dreta (factor = 2)
-         c               c  
-       /                /                  b     
-      a        --->    b       --->      /  \
-       \              /                 a    c
-        b            a                 
-    */
 
 template <class Key, class Value> void BalancedTree<Key, Value>::rotacio(Position<Key,Value>* node,Position<Key,Value>* net, int factor){
     if (node == nullptr ) return;
@@ -163,8 +142,7 @@ template <class Key, class Value> int BalancedTree<Key, Value>::act_height_balan
 
 template <class Key, class Value> void BalancedTree<Key, Value>::dret_simple(Position<Key, Value>* node){
     // Cal convertir el node en el fill dret del node->left() i passar el fill dret del node->left() en el fill esq del node
-    cout << "Abans de la rotació simple dreta sobre: " << node->getKey() << endl;
-    this->print();
+    // this->print();
     Position<Key, Value>* pare = node->parent();
     Position<Key, Value>* net_dret = node->left()->right();
     Position<Key, Value>* fill_esq = node->left();
@@ -192,15 +170,13 @@ template <class Key, class Value> void BalancedTree<Key, Value>::dret_simple(Pos
         pare->setLeft(fill_esq);
     }
 
-
-    cout << "Després de la rotació simple dreta sobre: " << node->getKey() << endl;
-    this->print();
+    act_height_balance(node);
+    act_height_balance(fill_esq);
 }
 
 template <class Key, class Value> void BalancedTree<Key, Value>::esq_simple(Position<Key, Value>* node){
     // Cal convertir el node en el fill esq del node->right()) i passar el fill esq del node->right() en el fill dret del node
-    cout << "Abans de la rotació simple esquerra sobre: " << node->getKey() << endl;
-    this->print();
+
     Position<Key, Value>*pare = node->parent();
     Position<Key, Value>*net_esq = node->right()->left();
     Position<Key, Value>*fill_dret = node->right();
@@ -227,9 +203,8 @@ template <class Key, class Value> void BalancedTree<Key, Value>::esq_simple(Posi
     } else{
         pare->setLeft(fill_dret);
     }
-    
-    cout << "Abans de la rotació simple esquerra sobre: " << node->getKey() << endl;
-    this->print();
+    act_height_balance(node);
+    act_height_balance(fill_dret);
 }
 
 #endif // BALANCEDTREE_H

@@ -247,30 +247,11 @@ void mainExercici3(){
         cout << *it << " ";
     }
     cout << endl;
-    tree2.print();
 } 
 
 int main(){
     //mainExercici1();
     //mainExercici2());
-    //mainExercici3();
-    
-    cout << "   ---  Arbre buit ---" << endl;
-    cout << "---  Type '-1' per tancar --- " << endl;
-    BalancedTree<int,int> arbre;
-    int nou = 0;
-    while (nou != -1){
-        cout << "Nou element: ";
-        cin >> nou;
-        if (cin.fail()){
-            cin.clear();
-            cin.ignore(1000, '\n');
-            cout << " Només Integers! (-1 per tancar)"<< endl;
-        }
-        else if (nou != -1)
-            arbre.insert(nou,0);
-        arbre.print();
-    }
-    return 0;
+    mainExercici3();
     
 }

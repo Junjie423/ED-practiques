@@ -78,11 +78,11 @@ template <class Key, class Value> Position<Key, Value>::~Position(){
 
 // Modificadors
 template <class Key, class Value> void Position<Key, Value>::setParent(Position<Key, Value>* pos){
-    this-> pare = pos;
+    this->pare = pos;
 }
 
 template <class Key, class Value> void Position<Key, Value>::setLeft(Position<Key, Value>* pos){
-    this-> esq = pos;
+    this->esq = pos;
 }
 
 template <class Key, class Value> void Position<Key, Value>::setRight(Position<Key, Value>* pos){
