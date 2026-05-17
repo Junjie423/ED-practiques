@@ -92,15 +92,7 @@ template <class Key, class Value> int BinaryTree<Key, Value>::height() const{
     // Cridem a la funció recursiva que ens calcula l'altura de l'arbre
     return rec_height(this->root);
 }
-/*
-      02
-    /      \        
-   00      08  
-        /      \
-       05      45
-       /       /  \ 
-      03      40  76  
-*/
+
 template <class Key, class Value> bool BinaryTree<Key, Value>::contains(const Key& key) const{
     // Cas de arbre buit
     if(this->root == nullptr){   // També es pot fer if (this->isEmpty())
@@ -203,7 +195,7 @@ template <class Key, class Value> Position<Key, Value>* BinaryTree<Key, Value>::
         } else{
             itrPare->setLeft(nou);
         }
-
+        // En aquest cas retornem el nou node creat
         return nou;
     }
 }

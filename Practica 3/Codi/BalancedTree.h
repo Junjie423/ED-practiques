@@ -14,29 +14,29 @@ template <class Key, class Value>
 class BalancedTree : public BinaryTree<Key, Value> {
 public:
     // Constructor
-    BalancedTree();
-    BalancedTree(const BalancedTree<Key, Value>& orig);
+    BalancedTree(); // O(1)
+    BalancedTree(const BalancedTree<Key, Value>& orig); // O(n) (crida el constructor còpia de BinaryTree)
     // Destructor
-    virtual ~BalancedTree();
+    virtual ~BalancedTree(); // O(1) (BinaryTree ja ho destrueix)
 
     // Mètodes
-    Position<Key, Value>* insert(const Key& key, const Value& value);
+    Position<Key, Value>* insert(const Key& key, const Value& value); // O(log n) millor cas, O(n) pitjor cas (arbre lineal)
 private:
     /* Les rotacions, definiu-les aquí sota */
-    void rotacio(Position<Key,Value>* node,Position<Key,Value>* net, int factor);
-    int act_height_balance(Position<Key,Value>* node); // Retorna balance-factor
-    void dret_simple(Position<Key, Value>* node);
-    void esq_simple(Position<Key, Value>* node);
+    void rotacio(Position<Key,Value>* node,Position<Key,Value>* net, int factor); // O(1)
+    int act_height_balance(Position<Key,Value>* node); // Retorna balance-factor. O(1)
+    void dret_simple(Position<Key, Value>* node); // O(1)
+    void esq_simple(Position<Key, Value>* node); // O(1)
 };
 
 
 // Constructors
 template <class Key, class Value> BalancedTree<Key, Value>::BalancedTree():
-    BinaryTree<Key, Value>()
+    BinaryTree<Key, Value>() // Crida el constructor de BinaryTree
 {}
 
 template <class Key, class Value> BalancedTree<Key, Value>::BalancedTree(const BalancedTree<Key, Value>& orig):
-    BinaryTree<Key, Value>(orig)
+    BinaryTree<Key, Value>(orig) // Crida el constructor còpia de BinaryTree
 {}
 
 // Destructor
@@ -79,11 +79,12 @@ template <class Key, class Value> Position<Key, Value>* BalancedTree<Key, Value>
         iterator = iterator->parent();    
         }
     }
-
+    // Retornem el node nou insertat
     return node_nou;
  }
 
 template <class Key, class Value> void BalancedTree<Key, Value>::rotacio(Position<Key,Value>* node,Position<Key,Value>* net, int factor){
+    // Si node és nullptr no fem res
     if (node == nullptr ) return;
 
     // Si el factor es 2 vol dir que el fill esquerre té més altura (cal fer rotació simple dret o doble esq-dret)
@@ -142,7 +143,6 @@ template <class Key, class Value> int BalancedTree<Key, Value>::act_height_balan
 
 template <class Key, class Value> void BalancedTree<Key, Value>::dret_simple(Position<Key, Value>* node){
     // Cal convertir el node en el fill dret del node->left() i passar el fill dret del node->left() en el fill esq del node
-    // this->print();
     Position<Key, Value>* pare = node->parent();
     Position<Key, Value>* net_dret = node->left()->right();
     Position<Key, Value>* fill_esq = node->left();
@@ -169,7 +169,7 @@ template <class Key, class Value> void BalancedTree<Key, Value>::dret_simple(Pos
     } else{
         pare->setLeft(fill_esq);
     }
-
+    // Actualitzem les altures del node i del fill esq (que ara és el pare del node)
     act_height_balance(node);
     act_height_balance(fill_esq);
 }
@@ -203,6 +203,7 @@ template <class Key, class Value> void BalancedTree<Key, Value>::esq_simple(Posi
     } else{
         pare->setLeft(fill_dret);
     }
+    // Actualitzem les altures del node i del fill dret (que ara és el pare del node)
     act_height_balance(node);
     act_height_balance(fill_dret);
 }

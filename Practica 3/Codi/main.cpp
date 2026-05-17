@@ -16,9 +16,9 @@ using namespace std;
             |              |  Fitxer   |  Fitxer   |  Fitxer    |  Fitxer  |  Fitxer  |    Fitxer    |
             |              |   SHORT   |   LONG    | UNBALANCED |  SHORT   |   LONG   |  UNBALANCED  |
             +--------------+-----------+-----------+------------+----------+----------+--------------+
-            | BinaryTree   |   797 μs  | 30478 μs  | 3716649 μs | 314426 μs| 474196 μs| 130460848 μs |     
+            | BinaryTree   |   599 μs  | 27208 μs  | 3470716 μs | 296760 μs| 436581 μs| 126665822 μs |     
             +--------------+-----------+-----------+------------+----------+----------+--------------+
-            | BalancedTree |  1092 μs  | 35631 μs  | 21213 μs   | 238080 μs| 406348 μs| 356344 μs    |
+            | BalancedTree |  1279 μs  | 32757 μs  | 20667 μs   | 225178 μs| 374422 μs| 353041 μs    |
             +--------------+-----------+-----------+------------+----------+----------+--------------+
 */
 
@@ -98,10 +98,12 @@ void mainExercici2(){
         // Cas llegir un fitxer
         case 1:
             try{
+                // Si el fitxer no era nullptr, ho eliminem i l'assignem nullptr
                 if(wordIn != nullptr) { 
                     delete wordIn;
                     wordIn = nullptr;
                 }
+                // Creem un bucle per demanar a l'usuari quin fitxer vol llegir i creem el WordIndexer amb el fitxer escollit i calculem el temps que triga en crearse
                 string entrada = "start";
                 while (entrada != "P" && entrada!= "G" && entrada != "p" && entrada != "g"){
                     cout << "Quin fitxer vols (P/G)? " ;
@@ -129,9 +131,11 @@ void mainExercici2(){
         // Cas mostrar l'arbre creixent
         case 2:
             try{
-                if (wordIn->size() == 0){
+                // Si l'arbre està buit, llançem excepció o si és nullptr també
+                if (wordIn == nullptr || wordIn->size() == 0){
                     throw out_of_range("L'arbre està buit");
                 }
+                // Cridem la funció de printar de 40 en 40 i mesurem el temps que triga
                 chrono::steady_clock::time_point begin = chrono::steady_clock::now();
                 wordIn->print40(); 
                 chrono::steady_clock::time_point end = chrono::steady_clock::now();
@@ -143,9 +147,11 @@ void mainExercici2(){
         // Cas llegir fitxer dictionary.txt
         case 3:
             try{
-                if (wordIn->size() == 0){
+                // Si l'arbre està buit, llançem excepció o si és nullptr també
+                if (wordIn == nullptr || wordIn->size() == 0){
                     throw out_of_range("L'arbre està buit");
                 }
+                // Cridem la funcio que comprova si les paraules del dictionary estan a l'arbre i mesurem el temps que triga
                 chrono::steady_clock::time_point begin = chrono::steady_clock::now();
                 ifstream file("dictionary.txt");
                 if(!file.is_open()){
@@ -164,9 +170,11 @@ void mainExercici2(){
         // Cas generar índex de paraules
         case 4:
             try{
-                if (wordIn->size() == 0){
-                throw out_of_range("L'arbre està buit");
+                // Si l'arbre està buit, llançem excepció o si és nullptr també
+                if (wordIn == nullptr || wordIn->size() == 0){
+                    throw out_of_range("L'arbre està buit");
                 }
+                // Cridem la funció que imprimeix tot l'arbre amb les paraules i les tuples i mesurem el temps que triga
                 chrono::steady_clock::time_point begin = chrono::steady_clock::now();
                 wordIn->printDictionary(); 
                 chrono::steady_clock::time_point end = chrono::steady_clock::now();
@@ -178,9 +186,11 @@ void mainExercici2(){
          // Cas calcular profunditat de l'arbre
         case 5:
             try{
-                if (wordIn->size() == 0){
+                // Si l'arbre està buit, llançem excepció o si és nullptr també
+                if (wordIn == nullptr || wordIn->size() == 0){
                     throw out_of_range("L'arbre està buit");
                 }
+                // Cridem la funció que calcula la profunditat de l'arbre i mesurem el temps que triga
                 chrono::steady_clock::time_point begin = chrono::steady_clock::now();
                 cout << "La profunditat de l'arbre guardat: " << wordIn->height() << endl;
                 chrono::steady_clock::time_point end = chrono::steady_clock::now();
@@ -248,8 +258,8 @@ void mainExercici4(){
 
     WordIndexerBalanced* wordIn = nullptr;
     // creem el bucle principal
-    cout << "Benvingut al WordIndexer" << endl;
-    while(option != 6){
+    cout << "Benvingut al WordIndexerBalanced" << endl;
+    while (option != 6){
         option = -1;
         // Utilitzant while podem fer que mostri el menu
          while(option < 0 || option > 6){
@@ -272,10 +282,12 @@ void mainExercici4(){
         // Cas llegir un fitxer
         case 1:
             try{
+                // Si el fitxer no era nullptr, ho eliminem i l'assignem nullptr
                 if(wordIn != nullptr) { 
                     delete wordIn;
                     wordIn = nullptr;
                 }
+                // Creem un bucle per demanar a l'usuari quin fitxer vol llegir i creem el WordIndexer amb el fitxer escollit i calculem el temps que triga en crearse
                 string entrada = "start";
                 while (entrada != "P" && entrada!= "G" && entrada != "p" && entrada != "g"){
                     cout << "Quin fitxer vols (P/G)? " ;
@@ -303,9 +315,11 @@ void mainExercici4(){
         // Cas mostrar l'arbre creixent
         case 2:
             try{
-                if (wordIn->size() == 0){
+                // Si l'arbre està buit, llançem excepció o si és nullptr també
+                if (wordIn == nullptr || wordIn->size() == 0){
                     throw out_of_range("L'arbre està buit");
                 }
+                // Cridem la funció de printar de 40 en 40 i mesurem el temps que triga
                 chrono::steady_clock::time_point begin = chrono::steady_clock::now();
                 wordIn->print40(); 
                 chrono::steady_clock::time_point end = chrono::steady_clock::now();
@@ -317,9 +331,11 @@ void mainExercici4(){
         // Cas llegir fitxer dictionary.txt
         case 3:
             try{
-                if (wordIn->size() == 0){
+                // Si l'arbre està buit, llançem excepció o si és nullptr també
+                if (wordIn == nullptr || wordIn->size() == 0){
                     throw out_of_range("L'arbre està buit");
                 }
+                // Cridem la funcio que comprova si les paraules del dictionary estan a l'arbre i mesurem el temps que triga
                 chrono::steady_clock::time_point begin = chrono::steady_clock::now();
                 ifstream file("dictionary.txt");
                 if(!file.is_open()){
@@ -338,9 +354,11 @@ void mainExercici4(){
         // Cas generar índex de paraules
         case 4:
             try{
-                if (wordIn->size() == 0){
-                throw out_of_range("L'arbre està buit");
+                // Si l'arbre està buit, llançem excepció o si és nullptr també
+                 if (wordIn == nullptr || wordIn->size() == 0){
+                    throw out_of_range("L'arbre està buit");
                 }
+                // Cridem la funció que imprimeix tot l'arbre amb les paraules i les tuples i mesurem el temps que triga
                 chrono::steady_clock::time_point begin = chrono::steady_clock::now();
                 wordIn->printDictionary(); 
                 chrono::steady_clock::time_point end = chrono::steady_clock::now();
@@ -352,9 +370,11 @@ void mainExercici4(){
          // Cas calcular profunditat de l'arbre
         case 5:
             try{
-                if (wordIn->size() == 0){
+                // Si l'arbre està buit, llançem excepció o si és nullptr també
+                 if (wordIn == nullptr || wordIn->size() == 0){
                     throw out_of_range("L'arbre està buit");
                 }
+                // Cridem la funció que calcula la profunditat de l'arbre i mesurem el temps que triga
                 chrono::steady_clock::time_point begin = chrono::steady_clock::now();
                 cout << "La profunditat de l'arbre guardat: " << wordIn->height() << endl;
                 chrono::steady_clock::time_point end = chrono::steady_clock::now();
@@ -365,13 +385,14 @@ void mainExercici4(){
             break;
         // Cas sortir
         case 6: 
-            cout << "Sortint del WordIndexer..." << endl;
+            cout << "Sortint del WordIndexerBalanced..." << endl;
             break;
         }
     }
 }
 
 void cal_TempsCerca(WordIndexer* wordId){
+    // Calculem el temps que triga en cercar les paraules del dictionary.txt al wordIndexer introduït com a parametre
     chrono::steady_clock::time_point begin = chrono::steady_clock::now();
     ifstream dades ("dictionary.txt");
     if (!dades.is_open())                    
@@ -386,6 +407,11 @@ void cal_TempsCerca(WordIndexer* wordId){
 }
 
 void mainExercici5(){
+    /* Calculem el temps que triga en crear un WordIndexer i un WordIndexerBalanced amb els fitxers 
+        shortText.txt, longText.txt i unbalancedText.txt i el temps que triga en cercar les paraules del dictionary.txt
+        a cada un dels WordIndexers creats
+    */
+
     cout << "--- Per el BinaryTree --- " << endl;
     WordIndexer* wordIn;
     cout << "    Cas Short: " << endl;
@@ -462,10 +488,10 @@ void mainExercici5(){
 }
 
 int main(){
-    //mainExercici1();
-    //mainExercici2();
-    //mainExercici3();
-    //mainExercici4();
+    mainExercici1();
+    mainExercici2();
+    mainExercici3();
+    mainExercici4();
     mainExercici5();
     return 0;
 }
