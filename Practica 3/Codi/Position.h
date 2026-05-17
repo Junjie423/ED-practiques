@@ -1,7 +1,6 @@
 #ifndef POSITION_H
 #define POSITION_H
 
-#include "Position.h"
 #include <vector> 
 #include <iostream>
 #include <stdexcept>

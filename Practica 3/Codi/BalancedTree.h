@@ -3,12 +3,22 @@
 
 #include "BinaryTree.h"
 #include "Position.h"
-#include <vector>
 #include <iostream>
 #include <stdexcept>
 #include <algorithm>
 
 using namespace std;
+
+/*
+Expliqueu a BalancedTree.h les similituds i diferències en la implementació d’aquest TAD BalancedTree respecte al TAD BinaryTree.
+
+En comparació amb el TAD BinaryTree, el TAD BalancedTree hereta de BinaryTree i per tant comparteixen molts mètodes i atributs.
+És a dir la majoria de mètodes és la mateixa, no obstant això, l'únic mètode diferent és el insert(), que en el cas de BalancedTree
+té una complexitat més baixa en el pitjor cas O(log n) perquè a diferència del BinaryTree, fa les rotacions necessàries per mantenir 
+l'arbre equilibrat i evitar que es converteixi en un arbre lineal (que seria el pitjor cas per a un BinaryTree). A més, en aquest cas,
+també actualitza les altutres dels nodes una vegada inserit el nou element i fetes les rotacions.
+
+*/
 
 template <class Key, class Value>
 class BalancedTree : public BinaryTree<Key, Value> {
@@ -20,7 +30,7 @@ public:
     virtual ~BalancedTree(); // O(1) (BinaryTree ja ho destrueix)
 
     // Mètodes
-    Position<Key, Value>* insert(const Key& key, const Value& value); // O(log n) millor cas, O(n) pitjor cas (arbre lineal)
+    Position<Key, Value>* insert(const Key& key, const Value& value); // O(log n), mai serà lineal l'arbre
 private:
     /* Les rotacions, definiu-les aquí sota */
     void rotacio(Position<Key,Value>* node,Position<Key,Value>* net, int factor); // O(1)

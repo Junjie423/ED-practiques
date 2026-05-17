@@ -20,6 +20,18 @@ using namespace std;
             +--------------+-----------+-----------+------------+----------+----------+--------------+
             | BalancedTree |  1279 μs  | 32757 μs  | 20667 μs   | 225178 μs| 374422 μs| 353041 μs    |
             +--------------+-----------+-----------+------------+----------+----------+--------------+
+
+            Comparant el temps que triga en crear l'arbre i cercar el dictionary.txt en l'arbre amb els tres fitxers diferents
+            podem veure que per a fitxers petits, el BinaryTree és més ràpid en la inserció, perquè no ha de fer cap operació per 
+            rotar l'arbre i actualitzar les altures, però en fitxer més grans o en el cas de unbalanced, el BalancedTree és molt més
+            ràpid a l'hora d'insertar, ja que manté l'arbre equilibrat, mentre que el BinaryTree es pot convertir en un arbre linela
+            (en el cas de unbalanced) i per tant la inserció es torna lenta. 
+            En el cas de la cerca, el BalancedTree és més eficient i ràpid que el BinaryTree, ja que manté l'arbre equilibrat i per tant
+            la profunditat de l'arbre és menor, i també perquè el mètode contains() de BalancedTree manté la complexitat O(log n) en el 
+            pitjor cas, mentre que el BinaryTree pot arribar a tenir complexitat O(n) en el pitjor cas (arbre lineal), com en el cas de 
+            unbalanced, on el BinaryTree s'ha construit com una mena de llista enllaçada i per tant la cerca triga molt de temps (2 min),
+            en canvi en Balancedtree només triga 0,35 s.
+
 */
 
 

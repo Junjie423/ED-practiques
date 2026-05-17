@@ -1,12 +1,10 @@
 #include "WordIndexer.h"
-#include "BinaryTree.h"
-#include "Position.h"
-#include "Tuple.h"
 #include <stdexcept>
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <vector>
 
 using namespace std;
 

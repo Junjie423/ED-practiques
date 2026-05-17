@@ -55,7 +55,11 @@ template<class Element> bool Tuple<Element>::operator==(const Tuple<Element>& ot
 }
 
 template<class Element> bool Tuple<Element>::operator<(const Tuple<Element>& other) const{
-    return ((this->_fila < other._fila) && (this->_col < other._col));
+    if (this->_fila != other._fila) {
+        return this->_fila < other._fila;
+    } else{
+        return this->_col < other._col;
+    }
 }
 
 #endif // TUPLE_H

@@ -18,8 +18,10 @@ public:
     WordIndexer(); // O(1)
     WordIndexer(string path); // O(n) -> n nombre de paraules del fitxer (crida addText)
     WordIndexer(const WordIndexer& orig); // O(n) -> n nombre de nodes de l'arbre (crida el constructor còpia de BinaryTree)
+    // Destructor
     virtual ~WordIndexer(); // O(1) (BinaryTree ja destrueix)
  
+    // Mètodes
     int size() const; // O(1)
     int height() const; // O(n) (crida height() de BinaryTree)
     bool contains(const string &word) const; // O(log n) millor cas, O(n) pitjor cas (crida contains() de BinaryTree)

@@ -6,12 +6,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <algorithm>
-
-//Para el print
 #include <string>
-#include <queue>
-#include <cmath>
-#include <sstream>
 
 using namespace std;
 
